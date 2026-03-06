@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* 1. Colores Semánticos de Marca (Tus Hexadecimales exactos) */
+  --color-primary: #410092;    /* Púrpura: Para títulos principales y el Header */
+  --color-secondary: #0083FF;  /* Celeste: Para enlaces, íconos o información secundaria */
+  --color-accent: #FF0083;     /* Fuxia: EXCLUSIVO para botones de conversión (Book Now) */
+  
+  /* 2. Colores de Interfaz (Aprovechamos Tailwind nativo) */
+  /* Reemplazamos tu gris #888 por la escala nativa "Zinc" que es minimalista y elegante */
+  --color-ui-bg: var(--color-zinc-50);       /* Fondo casi blanco de la web */
+  --color-ui-surface: var(--color-white);    /* Fondo blanco puro para las Cards de tours */
+  --color-ui-border: var(--color-zinc-200);  /* Para líneas divisorias sutiles */
+  --color-ui-text: var(--color-zinc-600);    /* Gris oscuro legible para párrafos */
+  --color-ui-heading: var(--color-zinc-900); /* Casi negro para títulos cuando no uses púrpura */
+
+  /* Conectamos nuestras fuentes a Tailwind */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-syne), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Aplicamos el diseño minimalista por defecto a toda la web */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ui-bg);
+  color: var(--color-ui-text);
+  -webkit-font-smoothing: antialiased; /* Tipografía más nítida (Mejora UX visual) */
+}
+
+/* Aplicamos la fuente disruptiva a todos los títulos por defecto */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
