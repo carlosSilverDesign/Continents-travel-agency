@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google"; 
 import "./globals.css";
 import { Header } from "@/components/organisms/Header";
+import { Footer } from "@/components/organisms/Footer";
 
 // 2. Configuramos Inter (Para textos generales)
 const inter = Inter({ 
@@ -32,6 +33,7 @@ export default function RootLayout({
         <div className="flex-grow">
           {children}
         </div>
+        <Footer />
       </body>
     </html>
   );
