@@ -1,6 +1,8 @@
 import { HeroSlider } from "@/components/organisms/HeroSlider";
 import { SmartBanner } from "@/components/atoms/SmartBanner";
 import { DestinationCard } from "@/components/molecules/DestinationCard";
+import { ValueProposition } from "@/components/organisms/ValueProposition";
+import { Newsletter } from "@/components/organisms/Newsletter";
 import { supabase } from "@/lib/supabase"; // Nuestro conector
 
 // Convertimos la función en "async" para poder esperar (await) los datos de la base de datos
@@ -10,7 +12,7 @@ export default async function Home() {
   // Ordenamos por fecha de creación para mostrar los más recientes
   const { data: tours, error } = await supabase
     .from('tours')
-    .select('*')
+    .select('id, title, slug, cover_image_url, duration_days, price, badge_text')
     .order('created_at', { ascending: false });
 
   // Si hay error en la consulta, lo mostramos en consola
@@ -43,15 +45,14 @@ export default async function Home() {
           {/* 2. Si hay tours, los mapeamos (recorremos) para crear una Card por cada uno */}
           {tours && tours.map((tour) => (
             <DestinationCard 
-              key={tour.id}
-              slug={tour.slug}
-              title={tour.title}
-              duration={`${tour.duration_days} Días / ${tour.duration_nights} Noches`}
-              price={tour.price}
-              // Como nuestra BD aún no tiene imágenes reales, usamos la propiedad cover_image_url si existe, o una genérica
-              imageUrl={tour.cover_image_url || "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=800"}
-              imageAlt={tour.title}
-            />
+                key={tour.id}
+                title={tour.title}
+                slug={tour.slug}
+                image={tour.cover_image_url || "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=800"}
+                days={tour.duration_days} 
+                price={tour.price}
+                badgeText={tour.badge_text}
+              />
           ))}
 
           {/* Si no hay tours registrados, mostramos un mensaje amistoso */}
@@ -60,6 +61,12 @@ export default async function Home() {
           )}
         </div>
       </section>
+
+      {/* SECCIÓN 3: Propuesta de Valor */}
+      <ValueProposition />
+
+      {/* SECCIÓN 4: Captura de Leads (Newsletter) */}
+      <Newsletter />
 
     </main>
   );

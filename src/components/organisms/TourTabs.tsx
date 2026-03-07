@@ -3,16 +3,21 @@
 import React, { useState } from 'react';
 import { ProgramDetailTable } from "./ProgramDetailTable";
 import { ItinerarySection } from "./ItinerarySection";
+import { TourInclusions } from "./TourInclusions";
+import { UsefulInfo } from "./UsefulInfo";
+import { PriceAndHotels } from "./PriceAndHotels";
+import { BookNowForm } from "./BookNowForm";
 
 // Qué datos recibe este componente
 interface TourTabsProps {
   programDetail: string;
-  inclusions: string;
-  usefulInfo: string;
-  hotels: string;
+  inclusions: any;
+  usefulInfo: any;
+  hotels: any;
+  itineraries: any[]; // ¡Nuevo!
 }
 
-export function TourTabs({ programDetail, inclusions, usefulInfo, hotels }: TourTabsProps) {
+export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries }: TourTabsProps) {
   // Estado para saber qué pestaña está activa (por defecto la primera)
   const [activeTab, setActiveTab] = useState('detail');
 
@@ -54,33 +59,15 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels }: Tour
           </div>
         )}
 
-        {activeTab === 'itinerary' && <ItinerarySection />}
+        {activeTab === 'itinerary' && <ItinerarySection itineraries={itineraries} />}
         
-        {activeTab === 'inclusions' && (
-          <div className="animate-fade-in text-ui-text whitespace-pre-line leading-relaxed">
-            {inclusions}
-          </div>
-        )}
+        {activeTab === 'inclusions' && <TourInclusions data={inclusions} />}
 
-        {activeTab === 'info' && (
-          <div className="animate-fade-in text-ui-text whitespace-pre-line leading-relaxed">
-            {usefulInfo}
-          </div>
-        )}
+        {activeTab === 'info' && <UsefulInfo data={usefulInfo} />}
 
-        {activeTab === 'hotels' && (
-          <div className="animate-fade-in text-ui-text whitespace-pre-line leading-relaxed">
-            {hotels || 'Información de hoteles no disponible para este tour.'}
-          </div>
-        )}
+        {activeTab === 'hotels' && <PriceAndHotels data={hotels} />}
 
-        {activeTab === 'book' && (
-          <div className="animate-fade-in bg-ui-bg p-6 rounded-xl border border-ui-border">
-            <h3 className="text-xl font-bold text-primary mb-4">YOU HAVE SELECTED: PERU AND MACHUPICCHU</h3>
-            <p className="text-ui-text mb-4">Formulario de reserva en construcción...</p>
-            {/* Aquí integraremos los inputs de fechas, habitaciones y tipo de acomodación */}
-          </div>
-        )}
+        {activeTab === 'book' && <BookNowForm />}
       </div>
     </div>
   );

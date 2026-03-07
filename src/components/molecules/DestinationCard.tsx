@@ -2,56 +2,63 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/atoms/Button';
 
-// 1. Agregamos el "slug" a nuestras propiedades
+// 1. Agregamos el nuevo campo badgeText
 interface DestinationCardProps {
   title: string;
-  imageAlt: string;
-  imageUrl: string;
-  duration: string;
+  slug: string;
+  image: string;
+  days: number;
   price: number;
-  slug: string; // ¡Nuevo!
+  badgeText?: string; 
 }
 
-export function DestinationCard({ title, imageAlt, imageUrl, duration, price, slug }: DestinationCardProps) {
+export function DestinationCard({ title, slug, image, days, price, badgeText }: DestinationCardProps) {
+  // Variable del Tipo de Cambio (Más adelante podemos traerla de una API o de Supabase)
+  const TIPO_DE_CAMBIO = 3.80;
+  const precioSoles = (price * TIPO_DE_CAMBIO).toFixed(2);
+
   return (
-    <article className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-ui-border hover:shadow-md transition-shadow">
+    // relative es crucial para que la etiqueta (badge) flote sobre la imagen
+    <div className="bg-white rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-md transition-shadow group relative flex flex-col h-full">
       
-      <div className="relative w-full h-48 bg-zinc-200">
-        {/* Si no hay imagen en la BD aún, mostramos una por defecto */}
+      {/* ETIQUETA DE OFERTA (Se renderiza solo si escribiste algo en Supabase) */}
+      {badgeText && (
+        <div className="absolute top-4 left-4 z-10 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider">
+          {badgeText}
+        </div>
+      )}
+
+      {/* Imagen */}
+      <div className="h-48 overflow-hidden relative">
         <img 
-          src={imageUrl || "https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=800"} 
-          alt={imageAlt}
-          className="object-cover w-full h-full"
+          src={image} 
+          alt={title} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-primary">
+          {days} Días
+        </div>
       </div>
 
-      <div className="flex flex-col flex-grow p-5">
-        <div className="mb-4">
-          <span className="text-sm font-semibold text-secondary uppercase tracking-wider">
-            {duration}
-          </span>
-          <h3 className="text-xl font-bold text-ui-heading mt-1 leading-tight">
-            {title}
-          </h3>
-        </div>
-
-        <div className="flex-grow"></div>
-
-        <div className="flex items-center justify-between pt-4 border-t border-ui-border mt-4">
-          <div>
-            <p className="text-xs text-ui-text">Desde</p>
-            <p className="text-2xl font-bold text-primary">US$ {price}</p>
+      {/* Contenido */}
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-ui-heading mb-4 flex-grow line-clamp-2">{title}</h3>
+        
+        <div className="flex items-end justify-between mt-auto pt-4 border-t border-ui-border">
+          <div className="flex flex-col">
+            <span className="text-xs text-ui-text uppercase tracking-wider font-semibold">Desde</span>
+            {/* Precio en USD (Principal) */}
+            <span className="text-xl font-bold text-primary leading-none mt-1">US$ {price}</span>
+            {/* Precio en Soles (INDECOPI) */}
+            <span className="text-[10px] text-ui-text/80 mt-1 font-medium">
+              Ref: S/ {precioSoles} (TC: {TIPO_DE_CAMBIO.toFixed(2)})
+            </span>
           </div>
-          
-          {/* 2. Envolvemos el botón en un Link que apunte a la ruta dinámica */}
           <Link href={`/paquetes/${slug}`}>
-            <Button variant="accent" size="md">
-              Ver más
-            </Button>
+            <Button variant="primary" size="md">Ver más</Button>
           </Link>
         </div>
-
       </div>
-    </article>
+    </div>
   );
 }

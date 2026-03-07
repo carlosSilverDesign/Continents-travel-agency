@@ -21,7 +21,8 @@ export default async function TourDetail({ params }: Props) {
       itineraries (
         day_number,
         title,
-        description
+        description,
+        image_url
       )
     `)
     .eq('slug', slug)
@@ -64,6 +65,7 @@ export default async function TourDetail({ params }: Props) {
             inclusions={tour.inclusions}
             usefulInfo={tour.useful_info}
             hotels={tour.hotels}
+            itineraries={itinerarioOrdenado}
           />
 
         </div>
