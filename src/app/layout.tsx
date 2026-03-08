@@ -4,6 +4,7 @@ import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/organisms/Header";
 import { Footer } from "@/components/organisms/Footer";
+import { FloatingWhatsApp } from "@/components/molecules/FloatingWhatsApp";
 
 // 2. Configuramos Inter (Para textos generales)
 const inter = Inter({ 
@@ -34,6 +35,9 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+
+        {/* NUESTRO BOTÓN FLOTANTE GLOBAL */}
+        <FloatingWhatsApp />
       </body>
     </html>
   );
