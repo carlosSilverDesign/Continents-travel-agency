@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/atoms/Button';
 
 // 1. Agregamos el nuevo campo badgeText
 interface DestinationCardProps {
@@ -9,7 +8,7 @@ interface DestinationCardProps {
   image: string;
   days: number;
   price: number;
-  badgeText?: string; 
+  badgeText?: string;
 }
 
 export function DestinationCard({ title, slug, image, days, price, badgeText }: DestinationCardProps) {
@@ -20,7 +19,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
   return (
     // relative es crucial para que la etiqueta (badge) flote sobre la imagen
     <div className="bg-white rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-md transition-shadow group relative flex flex-col h-full">
-      
+
       {/* ETIQUETA DE OFERTA (Se renderiza solo si escribiste algo en Supabase) */}
       {badgeText && (
         <div className="absolute top-4 left-4 z-10 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider">
@@ -30,9 +29,9 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
 
       {/* Imagen */}
       <div className="h-48 overflow-hidden relative">
-        <img 
-          src={image} 
-          alt={title} 
+        <img
+          src={image}
+          alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-primary">
@@ -43,7 +42,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
       {/* Contenido */}
       <div className="p-5 flex flex-col flex-grow">
         <h3 className="text-lg font-bold text-ui-heading mb-4 flex-grow line-clamp-2">{title}</h3>
-        
+
         <div className="flex items-end justify-between mt-auto pt-4 border-t border-ui-border">
           <div className="flex flex-col">
             <span className="text-xs text-ui-text uppercase tracking-wider font-semibold">Desde</span>
@@ -54,8 +53,11 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
               Ref: S/ {precioSoles} (TC: {TIPO_DE_CAMBIO.toFixed(2)})
             </span>
           </div>
-          <Link href={`/paquetes/${slug}`}>
-            <Button variant="primary" size="md">Ver más</Button>
+          <Link
+            href={`/paquetes/${slug}`}
+            className="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors cursor-pointer inline-flex items-center justify-center shadow-sm"
+          >
+            Ver más
           </Link>
         </div>
       </div>
