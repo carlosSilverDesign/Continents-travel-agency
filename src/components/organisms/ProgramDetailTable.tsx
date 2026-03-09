@@ -1,27 +1,29 @@
 import React from 'react';
 
-// Datos extraídos de tu documento de estructura
-const details = [
-  { key: "Precio", value: "De US$ 799.00. Incluye todos los cargos por transacción con tarjeta de crédito e impuestos." },
-  { key: "Condiciones", value: "Mínimo 02 Pasajeros. Habitación Base Doble." },
-  { key: "Punto de Partida", value: "LIMA" },
-  { key: "Punto de Llegada", value: "LIMA" },
-  { key: "Duración", value: "06 Días / 05 Noches" },
-  { key: "Estilo de Viaje", value: "Arqueológico, Cultural y Ecológico" },
-  { key: "Lugares a Visitar", value: "Lima y Cusco" },
-  { key: "Pasajes Aéreos", value: "Lima / Cusco / Lima" },
-  { key: "Highlights", value: "City Tour y 04 ruinas, Valle Sagrado de los Incas, Machupicchu y City tour: Lima Colonial." }
-];
+// Definimos la estructura exacta que le pasamos desde la base de datos
+interface DetailItem {
+  key: string;
+  value: string;
+}
 
-export function ProgramDetailTable() {
+interface ProgramDetailProps {
+  details: DetailItem[];
+}
+
+export function ProgramDetailTable({ details }: ProgramDetailProps) {
+  
+  // Si por alguna razón el tour aún no tiene detalles llenos, mostramos un mensaje bonito
+  if (!details || details.length === 0) {
+    return <p className="text-ui-text">Los detalles de este programa estarán disponibles muy pronto.</p>;
+  }
+
   return (
-    // Contenedor principal con bordes redondeados
+    // Tu contenedor principal original intacto
     <div className="flex flex-col border border-ui-border rounded-xl overflow-hidden animate-fade-in shadow-sm">
       {details.map((item, index) => (
         <div 
           key={index} 
-          // La magia responsive: En móvil es flex-col (uno arriba de otro), en PC (md) es flex-row (lado a lado)
-          // Además alternamos el color de fondo para que sea fácil de leer (Zebra striping)
+          // Tu magia responsive y de zebra striping original intacta
           className={`flex flex-col md:flex-row p-4 lg:p-5 transition-colors hover:bg-ui-bg/50 ${
             index !== details.length - 1 ? 'border-b border-ui-border' : ''
           } ${index % 2 === 0 ? 'bg-white' : 'bg-ui-bg/30'}`}

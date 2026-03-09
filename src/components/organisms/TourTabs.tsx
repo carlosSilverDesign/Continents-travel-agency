@@ -10,14 +10,15 @@ import { BookNowForm } from "./BookNowForm";
 
 // Qué datos recibe este componente
 interface TourTabsProps {
-  programDetail: string;
+  programDetail: any[];
   inclusions: any;
   usefulInfo: any;
   hotels: any;
-  itineraries: any[]; // ¡Nuevo!
+  itineraries: any[];
+  mapImage?: string;
 }
 
-export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries }: TourTabsProps) {
+export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries, mapImage }: TourTabsProps) {
   // Estado para saber qué pestaña está activa (por defecto la primera)
   const [activeTab, setActiveTab] = useState('detail');
 
@@ -55,11 +56,12 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itiner
         {activeTab === 'detail' && (
           <div className="animate-fade-in">
             <h3 className="text-xl font-bold text-ui-heading mb-6">Resumen del Programa</h3>
-            <ProgramDetailTable />
+            {/* Le pasamos la prop "details" que espera tu tabla restaurada */}
+            <ProgramDetailTable details={programDetail} />
           </div>
         )}
 
-        {activeTab === 'itinerary' && <ItinerarySection itineraries={itineraries} />}
+        {activeTab === 'itinerary' && <ItinerarySection itineraries={itineraries} mapImage={mapImage} />}
         
         {activeTab === 'inclusions' && <TourInclusions data={inclusions} />}
 
