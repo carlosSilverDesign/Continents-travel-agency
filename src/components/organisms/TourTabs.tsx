@@ -8,7 +8,7 @@ import { UsefulInfo } from "./UsefulInfo";
 import { PriceAndHotels } from "./PriceAndHotels";
 import { BookNowForm } from "./BookNowForm";
 
-// Qué datos recibe este componente
+// 1. Agregamos tourName a las propiedades que recibe este componente
 interface TourTabsProps {
   programDetail: any[];
   inclusions: any;
@@ -16,20 +16,22 @@ interface TourTabsProps {
   hotels: any;
   itineraries: any[];
   mapImage?: string;
+  tourName: string; // <-- ¡NUEVO!
 }
 
-export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries, mapImage }: TourTabsProps) {
+// 2. Extraemos tourName de las propiedades
+export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries, mapImage, tourName }: TourTabsProps) {
   // Estado para saber qué pestaña está activa (por defecto la primera)
   const [activeTab, setActiveTab] = useState('detail');
 
   // Los botones de las pestañas
   const tabs = [
-    { id: 'detail', label: 'Program Detail' },
-    { id: 'itinerary', label: 'Itinerary' }, // Agregamos Itinerario aquí
-    { id: 'inclusions', label: 'Inclusions' },
-    { id: 'info', label: 'Useful Info' },
-    { id: 'hotels', label: 'Price & Hotels' },
-    { id: 'book', label: 'Book Now' }, // Nueva pestaña para el formulario
+    { id: 'detail', label: 'Resumen' },
+    { id: 'itinerary', label: 'Itinerario' },
+    { id: 'inclusions', label: 'Inclusiones' },
+    { id: 'info', label: 'Info útil' },
+    { id: 'hotels', label: 'Tarifas y Hoteles' },
+    { id: 'book', label: 'Reserva Ahora' },
   ];
 
   return (
@@ -40,7 +42,7 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itiner
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`whitespace-nowrap py-4 px-6 font-bold text-sm transition-colors border-b-2 ${
+            className={`whitespace-nowrap py-4 px-6 font-bold text-sm transition-colors cursor-pointer border-b-2 ${
               activeTab === tab.id 
                 ? 'border-primary text-primary' 
                 : 'border-transparent text-ui-text hover:text-primary hover:bg-ui-bg'
@@ -56,7 +58,6 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itiner
         {activeTab === 'detail' && (
           <div className="animate-fade-in">
             <h3 className="text-xl font-bold text-ui-heading mb-6">Resumen del Programa</h3>
-            {/* Le pasamos la prop "details" que espera tu tabla restaurada */}
             <ProgramDetailTable details={programDetail} />
           </div>
         )}
@@ -69,7 +70,8 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itiner
 
         {activeTab === 'hotels' && <PriceAndHotels data={hotels} />}
 
-        {activeTab === 'book' && <BookNowForm />}
+        {/* 3. ¡LA CONEXIÓN FINAL! Le pasamos el nombre al formulario */}
+        {activeTab === 'book' && <BookNowForm tourName={tourName} />}
       </div>
     </div>
   );

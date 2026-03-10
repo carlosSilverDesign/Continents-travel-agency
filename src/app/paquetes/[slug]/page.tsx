@@ -75,6 +75,7 @@ export default async function TourDetail({ params }: Props) {
             hotels={tour.hotels}
             itineraries={itinerarioOrdenado}
             mapImage={tour.map_image_url}
+            tourName={tour.title}
           />
         </div>
 
