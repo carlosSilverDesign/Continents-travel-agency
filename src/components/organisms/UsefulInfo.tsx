@@ -30,7 +30,7 @@ export function UsefulInfo({ data }: { data: any[] }) {
       {data.map((section, index) => {
         const isOpen = openIndex === index;
         return (
-          <div key={index} className="border border-ui-border rounded-xl overflow-hidden bg-white shadow-sm">
+          <div key={index} className="border border-ui-border rounded-xl overflow-hidden bg-ui-surface shadow-sm">
             <button
               onClick={() => setOpenIndex(isOpen ? null : index)}
               className="w-full flex justify-between items-center p-5 text-left hover:bg-ui-bg transition-colors"

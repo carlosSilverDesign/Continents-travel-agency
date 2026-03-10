@@ -5,15 +5,15 @@ import { Button } from '@/components/atoms/Button';
 
 export function BookNowForm() {
   // Función simulada para evitar que la página se recargue al enviar el formulario
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert("¡Formulario enviado! En la Fase de Integración conectaremos esto a tu WhatsApp o correo.");
   };
 
   return (
-    <form 
+    <form
       onSubmit={handleSubmit}
-      className="animate-fade-in flex flex-col gap-6 bg-white p-6 md:p-8 rounded-2xl border border-ui-border shadow-sm"
+      className="animate-fade-in flex flex-col gap-6 bg-ui-surface p-6 md:p-8 rounded-2xl border border-ui-border shadow-sm"
     >
       <h3 className="text-xl md:text-2xl font-bold text-primary uppercase border-b border-ui-border pb-4">
         HAS SELECCIONADO: PERÚ Y MACHU PICCHU

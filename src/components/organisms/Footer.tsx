@@ -5,7 +5,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-ui-border pt-16 pb-8">
+    <footer className="bg-ui-surface border-t border-ui-border pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         
         {/* GRID PRINCIPAL DE 4 COLUMNAS */}
@@ -14,7 +14,8 @@ export function Footer() {
           {/* COLUMNA 1: Marca y Redes */}
           <div className="flex flex-col gap-4">
             <Link href="/" className="flex flex-col items-start gap-2">
-              <img src="/logo.svg" alt="Continents Travel" className="h-10 md:h-12 w-auto object-contain object-left group-hover:scale-105 transition-transform origin-left" />
+              <img src="/logo.svg" alt="Continents Travel" className="h-10 md:h-12 w-auto object-contain object-left group-hover:scale-105 transition-transform origin-left dark:hidden" />
+              <img src="/logo-white.svg" alt="Continents Travel" className="h-10 md:h-12 w-auto object-contain object-left group-hover:scale-105 transition-transform origin-left hidden dark:block" />
               <span className="text-ui-text/60 font-medium text-sm tracking-widest uppercase pl-3">
                 Travel & Tours
               </span>

@@ -2,11 +2,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ThemeToggle } from "@/components/atoms/ThemeToggle";
 
 export function Header() {
   const pathname = usePathname();
   return (
-    <header className="bg-white border-b border-ui-border sticky top-0 z-50">
+    <header className="bg-ui-surface border-b border-ui-border sticky top-0 z-50">
 
       {/* PRIMER NIVEL: Logo y Botón de Idioma */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center">
@@ -14,9 +15,23 @@ export function Header() {
         {/* LOGO REAL Y TEXTO */}
         {/* Agregamos shrink-0 para que el logo nunca se aplaste por otros elementos */}
         <Link href="/" className="flex flex-col md:flex-row items-start md:items-center justify-center group shrink-0">
-        {/* Logo más pequeño en móviles (h-8) y grande en PC (md:h-12) */}
-          <img src="/logo.svg" alt="Continents Travel" className="h-8 sm:h-10 md:h-12 w-auto object-contain object-left group-hover:scale-102 transition-transform origin-left" />
+          {/* Logo más pequeño en móviles (h-8) y grande en PC (md:h-12) */}
+          {/* <img src="/logo.svg" alt="Continents Travel" className="h-8 sm:h-10 md:h-12 w-auto object-contain object-left group-hover:scale-102 transition-transform origin-left" /> */}
           
+          {/* Logo a color para el Modo Claro (Se oculta en oscuro con dark:hidden) */}
+          <img
+            src="/logo.svg"
+            alt="Continents Travel"
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain object-left group-hover:scale-102 transition-transform origin-left dark:hidden"
+          />
+
+          {/* Logo blanco para el Modo Oscuro (Se oculta en claro con hidden dark:block) */}
+          <img
+            src="/logo-white.svg"
+            alt="Continents Travel"
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain object-left group-hover:scale-102 transition-transform origin-left hidden dark:block"
+          />
+
           {/* En móvil se oculta. En PC (md) se pone al lado, con margen y línea separadora */}
           <span className="hidden sm:block text-ui-text/60 font-semibold text-[10px] md:text-xs tracking-[0.2em] uppercase mt-1 md:mt-0 md:ml-3 md:border-l md:border-ui-border md:pl-3">
             Travel & Tours
@@ -47,6 +62,9 @@ export function Header() {
             </svg>
             ES
           </button>
+
+          {/* Botón de Dark Mode */}
+          <ThemeToggle />
 
         </div>
 

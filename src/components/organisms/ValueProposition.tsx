@@ -21,7 +21,7 @@ const benefits = [
 
 export function ValueProposition() {
   return (
-    <section className="bg-white py-16 md:py-24 border-t border-ui-border">
+    <section className="bg-ui-surface py-16 md:py-24 border-t border-ui-border">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         
         <div className="text-center mb-12">

@@ -75,12 +75,12 @@ export function FlightCard({ image, destination, origin, flightType, airline, pr
   const linkWhatsApp = `https://wa.me/${numeroVentas}?text=${encodeURIComponent(mensaje)}`;
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
+    <div className="bg-ui-surface rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
       
       {/* 1. Imagen Superior (Estilo Destinos) */}
       <div className="h-40 overflow-hidden relative">
         <img src={image} alt={`Vuelo a ${destination}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-        <div className="absolute top-3 left-3 bg-white/95 px-2 py-1 rounded-md text-[10px] font-bold text-ui-text uppercase tracking-wider shadow-sm">
+        <div className="absolute top-3 left-3 bg-ui-surface px-2 py-1 rounded-md text-[10px] font-bold text-ui-text uppercase tracking-wider shadow-sm">
           {flightType}
         </div>
       </div>
@@ -112,7 +112,7 @@ export function FlightCard({ image, destination, origin, flightType, airline, pr
       </div>
 
       {/* 4. Pie: Precios y CTA de WhatsApp */}
-      <div className="p-5 border-t border-ui-border flex items-center justify-between bg-white">
+      <div className="p-5 border-t border-ui-border flex items-center justify-between bg-ui-surface">
         <div className="flex flex-col">
           <span className="text-[10px] text-ui-text uppercase font-bold tracking-wider">Precio desde:</span>
           <span className="text-2xl font-bold text-primary leading-none mt-1">US$ {priceUsd}</span>

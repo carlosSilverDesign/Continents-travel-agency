@@ -1,33 +1,62 @@
 @import "tailwindcss";
 
-@theme {
-  /* 1. Colores Semánticos de Marca (Tus Hexadecimales exactos) */
-  --color-primary: #410092;    /* Púrpura: Para títulos principales y el Header */
-  --color-secondary: #0083FF;  /* Celeste: Para enlaces, íconos o información secundaria */
-  --color-accent: #FF0083;     /* Fuxia: EXCLUSIVO para botones de conversión (Book Now) */
-  
-  /* 2. Colores de Interfaz (Aprovechamos Tailwind nativo) */
-  /* Reemplazamos tu gris #888 por la escala nativa "Zinc" que es minimalista y elegante */
-  --color-ui-bg: var(--color-zinc-50);       /* Fondo casi blanco de la web */
-  --color-ui-surface: var(--color-white);    /* Fondo blanco puro para las Cards de tours */
-  --color-ui-border: var(--color-zinc-200);  /* Para líneas divisorias sutiles */
-  --color-ui-text: var(--color-zinc-600);    /* Gris oscuro legible para párrafos */
-  --color-ui-heading: var(--color-zinc-900); /* Casi negro para títulos cuando no uses púrpura */
+@custom-variant dark (&:is(.dark *));
 
-  /* Conectamos nuestras fuentes a Tailwind */
+@theme {
+  /* 1. Colores Semánticos de Marca (Tu identidad no cambia de noche) */
+  --color-primary: #410092;
+  --color-secondary: #0083FF;
+  --color-accent: #FF0083;
+
+  /* 2. Colores de Interfaz Base (Modo Claro) */
+  --color-ui-bg: var(--color-zinc-50);
+  --color-ui-surface: var(--color-white);
+  --color-ui-border: var(--color-zinc-200);
+  --color-ui-text: var(--color-zinc-600);
+  --color-ui-heading: var(--color-zinc-900);
+
+  /* Fuentes */
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-heading: var(--font-syne), system-ui, sans-serif;
 }
 
+/* =======================================================
+   MODO OSCURO (La Magia de Inversión)
+   Cuando next-themes activa la clase .dark, estas variables reemplazan a las de arriba
+   ======================================================= */
+.dark {
+  --color-ui-bg: var(--color-zinc-950);
+  /* Fondo principal casi negro */
+  --color-ui-surface: var(--color-zinc-900);
+  /* Tarjetas un poco más claras para dar profundidad */
+  --color-ui-border: var(--color-zinc-800);
+  /* Bordes muy oscuros y sutiles */
+  --color-ui-text: var(--color-zinc-400);
+  /* Textos en gris claro para no deslumbrar */
+  --color-ui-heading: var(--color-zinc-50);
+  /* Títulos casi blancos */
 
-/* Aplicamos el diseño minimalista por defecto a toda la web */
+  /* Convertimos el púrpura oscuro en un lila brillante y legible */
+  --color-primary: #B070FF;
+}
+
+/* Aplicamos el diseño a toda la web */
 body {
   background-color: var(--color-ui-bg);
   color: var(--color-ui-text);
-  -webkit-font-smoothing: antialiased; /* Tipografía más nítida (Mejora UX visual) */
+  -webkit-font-smoothing: antialiased;
+  /* Agregamos esta línea para que el cambio de claro a oscuro sea un desvanecimiento suave (0.3s) */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Aplicamos la fuente disruptiva a todos los títulos por defecto */
-h1, h2, h3, h4, h5, h6 {
+/* Aplicamos la fuente disruptiva y el color dinámico a todos los títulos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
+  color: var(--color-ui-heading);
+  transition: color 0.3s ease;
 }

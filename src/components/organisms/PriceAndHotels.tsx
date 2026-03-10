@@ -11,7 +11,7 @@ export function PriceAndHotels({ data }: { data: any }) {
       {/* VERSIÓN MÓVIL: Tarjetas (Se oculta en PC) */}
       <div className="md:hidden flex flex-col gap-4">
         {categories.map((item: { category: string; hotels: string[]; priceDouble: string; priceSingle: string }, index: number) => (
-          <div key={index} className="bg-white border border-ui-border rounded-xl p-4 shadow-sm">
+          <div key={index} className="bg-ui-surface border border-ui-border rounded-xl p-4 shadow-sm">
             <h4 className="font-bold text-lg text-primary mb-3 border-b border-ui-border pb-2 uppercase tracking-wider">
               Categoría {item.category}
             </h4>
@@ -40,7 +40,7 @@ export function PriceAndHotels({ data }: { data: any }) {
       </div>
 
       {/* VERSIÓN PC: Tabla Elegante (Se oculta en móvil) */}
-      <div className="hidden md:block overflow-hidden border border-ui-border rounded-xl shadow-sm bg-white">
+      <div className="hidden md:block overflow-hidden border border-ui-border rounded-xl shadow-sm bg-ui-surface">
         <table className="w-full text-left text-sm">
           <thead className="bg-ui-bg border-b border-ui-border">
             <tr>

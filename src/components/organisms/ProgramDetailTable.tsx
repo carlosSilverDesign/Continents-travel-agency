@@ -26,7 +26,7 @@ export function ProgramDetailTable({ details }: ProgramDetailProps) {
           // Tu magia responsive y de zebra striping original intacta
           className={`flex flex-col md:flex-row p-4 lg:p-5 transition-colors hover:bg-ui-bg/50 ${
             index !== details.length - 1 ? 'border-b border-ui-border' : ''
-          } ${index % 2 === 0 ? 'bg-white' : 'bg-ui-bg/30'}`}
+          } ${index % 2 === 0 ? 'bg-ui-surface' : 'bg-ui-bg/30'}`}
         >
           {/* Columna Izquierda: La Llave (Key) */}
           <div className="md:w-1/3 font-bold text-primary mb-1 md:mb-0 uppercase tracking-wide text-sm flex items-center">

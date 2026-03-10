@@ -53,16 +53,16 @@ export default function VuelosPage() {
         {/* TABS Y LEYENDA */}
         <div className="flex flex-col items-center gap-6 mb-10 animate-fade-in">
 
-          <div className="bg-white p-1 rounded-xl border border-ui-border shadow-sm inline-flex">
+          <div className="bg-ui-surface p-1 rounded-xl border border-ui-border shadow-sm inline-flex">
             <button onClick={() => setActiveTab('nacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'nacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>Nacionales</button>
             <button onClick={() => setActiveTab('internacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'internacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>Internacionales</button>
           </div>
 
           {/* LEYENDA DE ÍCONOS (Ajustada al ancho completo y scroll corregido para Tablets) */}
           {/* Quitamos max-w-4xl para que tome el w-full y se alinee perfectamente con los Cards */}
-          <div className="w-full bg-white rounded-xl border border-ui-border p-4 md:p-5 shadow-sm">
+          <div className="w-full bg-ui-surface rounded-xl border border-ui-border p-4 md:p-5 shadow-sm">
             <p className="text-[10px] uppercase font-bold text-ui-text/70 mb-3 text-center md:text-left tracking-wider">
-              ¿Qué puede incluir tu tarifa?
+              ¿Qué podría incluir tu tarifa?
             </p>
             {/* Forzamos justify-start en móviles y tablets para que el scroll siempre inicie en "Accesorio Personal". 
                 Solo usamos xl:justify-center en pantallas gigantes donde sabemos que no habrá desborde. */}
@@ -101,7 +101,7 @@ export default function VuelosPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-2xl border border-ui-border shadow-sm">
+          <div className="text-center py-20 bg-ui-surface rounded-2xl border border-ui-border shadow-sm">
             <div className="text-4xl mb-3">✈️</div>
             <p className="text-ui-text text-lg font-medium">No hay ofertas disponibles en esta categoría por el momento.</p>
           </div>

@@ -52,7 +52,7 @@ export default function PaquetesPage() {
 
         {/* TABS DINÁMICOS */}
         <div className="flex justify-start md:justify-center mb-10 overflow-x-auto hide-scrollbar pb-2 animate-fade-in">
-          <div className="bg-white p-1 rounded-xl border border-ui-border shadow-sm inline-flex shrink-0">
+          <div className="bg-ui-surface p-1 rounded-xl border border-ui-border shadow-sm inline-flex shrink-0">
             {tabs.map((tab) => (
               <button 
                 key={tab.id}

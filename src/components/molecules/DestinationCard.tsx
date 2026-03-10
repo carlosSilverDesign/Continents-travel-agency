@@ -18,7 +18,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
 
   return (
     // relative es crucial para que la etiqueta (badge) flote sobre la imagen
-    <div className="bg-white rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-md transition-shadow group relative flex flex-col h-full">
+    <div className="bg-ui-surface rounded-2xl overflow-hidden border border-ui-border shadow-sm hover:shadow-md transition-shadow group relative flex flex-col h-full">
 
       {/* ETIQUETA DE OFERTA (Se renderiza solo si escribiste algo en Supabase) */}
       {badgeText && (
@@ -34,7 +34,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-primary">
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-[#410092]">
           {days} Días
         </div>
       </div>
@@ -50,7 +50,8 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
             <span className="text-xl font-bold text-primary leading-none mt-1">US$ {price}</span>
             {/* Precio en Soles (INDECOPI) */}
             <span className="text-[10px] text-ui-text/80 mt-1 font-medium">
-              Ref: S/ {precioSoles} (TC: {TIPO_DE_CAMBIO.toFixed(2)})
+              {/* Ref: S/ {precioSoles} (TC: {TIPO_DE_CAMBIO.toFixed(2)}) */}
+              Ref: S/ {precioSoles}
             </span>
           </div>
           <Link
