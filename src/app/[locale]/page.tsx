@@ -4,9 +4,12 @@ import { DestinationCard } from "@/components/molecules/DestinationCard";
 import { ValueProposition } from "@/components/organisms/ValueProposition";
 import { Newsletter } from "@/components/organisms/Newsletter";
 import { supabase } from "@/lib/supabase"; // Nuestro conector
+import { getTranslations } from "next-intl/server";
 
 // Convertimos la función en "async" para poder esperar (await) los datos de la base de datos
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'HomePage' });
   
   // 1. Consultamos la tabla 'tours' a Supabase
   // Ordenamos por fecha de creación para mostrar los más recientes
@@ -37,7 +40,7 @@ export default async function Home() {
       <section className="py-12 md:py-16 px-4 md:px-8 max-w-7xl mx-auto w-full">
         <div className="mb-10 text-center md:text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">
-            Destinos más buscados
+            {t('mostSearched')}
           </h2>
         </div>
 
@@ -57,7 +60,7 @@ export default async function Home() {
 
           {/* Si no hay tours registrados, mostramos un mensaje amistoso */}
           {(!tours || tours.length === 0) && (
-            <p className="text-ui-text col-span-full">Aún no hay paquetes disponibles. ¡Estamos preparando nuevas aventuras!</p>
+            <p className="text-ui-text col-span-full">{t('emptyTour')}</p>
           )}
         </div>
       </section>

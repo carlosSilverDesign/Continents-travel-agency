@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export function UsefulInfo({ data }: { data: any[] }) {
+  const t = useTranslations('UsefulInfo');
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   // Función para poner en negrita el texto antes de los dos puntos
@@ -21,11 +23,11 @@ export function UsefulInfo({ data }: { data: any[] }) {
     );
   };
 
-  if (!data || data.length === 0) return <p className="text-ui-text">Información no disponible.</p>;
+  if (!data || data.length === 0) return <p className="text-ui-text">{t('noInfo')}</p>;
 
   return (
     <div className="flex flex-col gap-3 animate-fade-in">
-      <h3 className="text-2xl font-bold text-primary mb-2">Información Útil para tu Viaje</h3>
+      <h3 className="text-2xl font-bold text-primary mb-2">{t('title')}</h3>
       
       {data.map((section, index) => {
         const isOpen = openIndex === index;

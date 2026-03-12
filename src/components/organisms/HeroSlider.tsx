@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/atoms/Button';
+import { useTranslations } from 'next-intl';
 
 // Nuestra data de prueba para los banners (Mock data)
 const slides = [
@@ -22,6 +23,7 @@ const slides = [
 ];
 
 export function HeroSlider() {
+  const t = useTranslations('HeroSlider');
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -50,14 +52,14 @@ export function HeroSlider() {
           
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
             <h2 className="text-2xl md:text-5xl font-bold !text-white mb-2 drop-shadow-md">
-              {slide.title}
+              {t(`slides.${slide.id}.title`)}
             </h2>
             {/* Ocultamos el subtítulo en móvil para ahorrar espacio (hidden md:block) */}
             <p className="hidden md:block text-lg !text-white/90 mb-6 font-sans drop-shadow-md">
-              {slide.subtitle}
+              {t(`slides.${slide.id}.subtitle`)}
             </p>
             <Button variant="accent" size="md">
-              {slide.cta}
+              {t(`slides.${slide.id}.cta`)}
             </Button>
           </div>
         </div>

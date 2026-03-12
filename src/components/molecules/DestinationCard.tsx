@@ -1,5 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 // 1. Agregamos el nuevo campo badgeText
 interface DestinationCardProps {
@@ -12,6 +13,7 @@ interface DestinationCardProps {
 }
 
 export function DestinationCard({ title, slug, image, days, price, badgeText }: DestinationCardProps) {
+  const t = useTranslations('DestinationCard');
   // Variable del Tipo de Cambio (Más adelante podemos traerla de una API o de Supabase)
   const TIPO_DE_CAMBIO = 3.80;
   const precioSoles = (price * TIPO_DE_CAMBIO).toFixed(2);
@@ -35,7 +37,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-[#410092]">
-          {days} Días
+          {t('days', { count: days })}
         </div>
       </div>
 
@@ -45,7 +47,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
 
         <div className="flex items-end justify-between mt-auto pt-4 border-t border-ui-border">
           <div className="flex flex-col">
-            <span className="text-xs text-ui-text uppercase tracking-wider font-semibold">Desde</span>
+            <span className="text-xs text-ui-text uppercase tracking-wider font-semibold">{t('from')}</span>
             {/* Precio en USD (Principal) */}
             <span className="text-xl font-bold text-primary leading-none mt-1">US$ {price}</span>
             {/* Precio en Soles (INDECOPI) */}
@@ -58,7 +60,7 @@ export function DestinationCard({ title, slug, image, days, price, badgeText }: 
             href={`/paquetes/${slug}`}
             className="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors cursor-pointer inline-flex items-center justify-center shadow-sm"
           >
-            Ver más
+            {t('viewMore')}
           </Link>
         </div>
       </div>

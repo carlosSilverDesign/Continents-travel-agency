@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 // ==============================================================================
@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
 export default function NuevoTourAdmin() {
+  // Estado para el idioma de publicación
+  const [locale, setLocale] = useState('es');
   // Estado para bloquear el botón mientras se suben los datos
   const [cargando, setCargando] = useState(false);
 
@@ -60,6 +62,44 @@ export default function NuevoTourAdmin() {
 
 
   // ==============================================================================
+  // 🔄 7. EFECTO: TRADUCCIÓN AUTOMÁTICA DE LAS LLAVES DEL PROGRAM DETAIL
+  // Escucha los cambios del locale (es/en) y traduce solo la llave (no el value)
+  // ==============================================================================
+  useEffect(() => {
+    const translateKeys = (details: {key: string, value: string}[], targetLocale: string) => {
+      const mapToEn: Record<string, string> = {
+        'Precio': 'Price',
+        'Condiciones': 'Conditions',
+        'Punto de Partida': 'Departure Point',
+        'Punto de Llegada': 'Arrival Point',
+        'Duración': 'Duration',
+        'Estilo de Viaje': 'Travel Style',
+        'Highlights': 'Highlights'
+      };
+      
+      const mapToEs: Record<string, string> = {
+        'Price': 'Precio',
+        'Conditions': 'Condiciones',
+        'Departure Point': 'Punto de Partida',
+        'Arrival Point': 'Punto de Llegada',
+        'Duration': 'Duración',
+        'Travel Style': 'Estilo de Viaje',
+        'Highlights': 'Highlights' 
+      };
+
+      const currentMap = targetLocale === 'en' ? mapToEn : mapToEs;
+
+      return details.map(item => ({
+        ...item,
+        key: currentMap[item.key] || item.key
+      }));
+    };
+
+    setProgramDetails(prev => translateKeys(prev, locale));
+  }, [locale]);
+
+
+  // ==============================================================================
   // 🚀 FUNCIÓN MAESTRA: COMPILAR JSONS Y ENVIAR A SUPABASE
   // Se ejecuta al darle clic al botón "Publicar Tour"
   // ==============================================================================
@@ -99,6 +139,7 @@ export default function NuevoTourAdmin() {
 
       // 4. Armamos el objeto final exacto que espera la tabla 'tours'
       const tourData = {
+        locale: locale,
         destination_id: basic.destination_id,
         title: basic.title,
         slug: basic.slug || basic.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
@@ -172,6 +213,33 @@ export default function NuevoTourAdmin() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
+        {/* =========================================================
+            SECCIÓN 0: IDIOMA DE PUBLICACIÓN
+            ========================================================= */}
+        <section className="bg-ui-surface p-6 md:p-8 rounded-2xl border border-ui-border shadow-sm">
+          <SectionTitle step={0}>Idioma de Publicación</SectionTitle>
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-ui-text">¿En qué idioma está escrito el contenido de este paquete?</p>
+            <div className="flex items-center gap-6">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${locale === 'es' ? 'border-primary' : 'border-ui-border group-hover:border-primary/50'}`}>
+                  {locale === 'es' && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
+                </div>
+                <input type="radio" name="tourLocale" value="es" checked={locale === 'es'} onChange={() => setLocale('es')} className="hidden" />
+                <span className={`font-bold ${locale === 'es' ? 'text-primary' : 'text-ui-text'}`}>Español (ES)</span>
+              </label>
+              
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${locale === 'en' ? 'border-primary' : 'border-ui-border group-hover:border-primary/50'}`}>
+                  {locale === 'en' && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
+                </div>
+                <input type="radio" name="tourLocale" value="en" checked={locale === 'en'} onChange={() => setLocale('en')} className="hidden" />
+                <span className={`font-bold ${locale === 'en' ? 'text-primary' : 'text-ui-text'}`}>English (EN)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
         {/* =========================================================
             SECCIÓN 1: DATOS BÁSICOS
             ========================================================= */}

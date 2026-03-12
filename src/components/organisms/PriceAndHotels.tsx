@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export function PriceAndHotels({ data }: { data: any }) {
-  if (!data) return <p className="text-ui-text">Información de precios no disponible.</p>;
+  const t = useTranslations('PriceAndHotels');
+  if (!data) return <p className="text-ui-text">{t('noInfo')}</p>;
   const categories = data.categories || [];
   const locations = data.locations || [];
   const notes = data.notes || [];
@@ -13,7 +15,7 @@ export function PriceAndHotels({ data }: { data: any }) {
         {categories.map((item: { category: string; hotels: string[]; priceDouble: string; priceSingle: string }, index: number) => (
           <div key={index} className="bg-ui-surface border border-ui-border rounded-xl p-4 shadow-sm">
             <h4 className="font-bold text-lg text-primary mb-3 border-b border-ui-border pb-2 uppercase tracking-wider">
-              Categoría {item.category}
+              {t('category', { category: item.category })}
             </h4>
 
             <div className="flex flex-col gap-2 text-sm text-ui-text mb-4">
@@ -27,11 +29,11 @@ export function PriceAndHotels({ data }: { data: any }) {
 
             <div className="bg-ui-bg p-3 rounded-lg flex flex-col gap-1">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-ui-text font-semibold">Doble/Triple (pp)</span>
+                <span className="text-xs text-ui-text font-semibold">{t('doubleTriple')}</span>
                 <span className="font-bold text-primary">{item.priceDouble}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-ui-text font-semibold">Simple</span>
+                <span className="text-xs text-ui-text font-semibold">{t('single')}</span>
                 <span className="font-bold text-secondary">{item.priceSingle}</span>
               </div>
             </div>
@@ -44,13 +46,13 @@ export function PriceAndHotels({ data }: { data: any }) {
         <table className="w-full text-left text-sm">
           <thead className="bg-ui-bg border-b border-ui-border">
             <tr>
-              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs">Categoría</th>
+              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs">{t('category', { category: '' }).trim()}</th>
               {/* Títulos dinámicos de ciudades */}
               {locations.map((loc: string, idx: number) => (
-                <th key={idx} className="p-4 font-bold text-primary uppercase tracking-wider text-xs">Hotel en {loc}</th>
+                <th key={idx} className="p-4 font-bold text-primary uppercase tracking-wider text-xs">{t('hotelIn', { loc })}</th>
               ))}
-              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs text-right">Doble/Triple</th>
-              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs text-right">Simple</th>
+              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs text-right">{t('doubleTriple')}</th>
+              <th className="p-4 font-bold text-primary uppercase tracking-wider text-xs text-right">{t('single')}</th>
             </tr>
 
           </thead>
@@ -72,7 +74,7 @@ export function PriceAndHotels({ data }: { data: any }) {
 
       {/* NOTAS ADICIONALES (Trenes y Upgrades) */}
       <div className="bg-ui-light p-5 rounded-xl border border-ui-border mt-2">
-        <h4 className="font-bold text-ui-heading mb-3">Notas Adicionales</h4>
+        <h4 className="font-bold text-ui-heading mb-3">{t('notes')}</h4>
         <div className="flex flex-col gap-2 text-sm text-ui-text">
           <ul className="list-disc pl-5 space-y-1">
             {notes.map((nota: string, idx: number) => (

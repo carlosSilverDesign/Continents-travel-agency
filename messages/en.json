@@ -1,0 +1,200 @@
+{
+  "Header": {
+    "bookNow": "Book Now",
+    "tours": "Tours",
+    "flights": "Flights",
+    "offers": "Offers",
+    "contact": "Contact an advisor"
+  },
+  "FloatingWhatsApp": {
+    "message": "Hello Continents Travel! I want to talk to a person to plan my trip.",
+    "writeUs": "Write to us!"
+  },
+  "TourTabs": {
+    "detail": "Overview",
+    "itinerary": "Itinerary",
+    "inclusions": "Inclusions",
+    "info": "Useful Info",
+    "hotels": "Rates and Hotels",
+    "book": "Book Now",
+    "programSummary": "Program Summary"
+  },
+  "DestinationCard": {
+    "days": "{count} Days",
+    "from": "From",
+    "viewMore": "View more"
+  },
+  "FlightCard": {
+    "flightsTo": "Flights to {destination}",
+    "departingFrom": "Departing from {origin}",
+    "priceFrom": "Price from:",
+    "bookNow": "Book Now",
+    "whatsappMessage": "Hello Continents! I want to book the flight offer to {destination} from {dateRange} for US$ {priceUsd}."
+  },
+  "TourDetail": {
+    "days": "Days",
+    "nights": "Nights",
+    "pricePerPerson": "Price per person",
+    "basePriceDisclaimer": "Base price in double occupancy.",
+    "bookNow": "Book now",
+    "whatsappMessage": "Hello Continents Travel! I want to book the \"{title}\" package for US$ {price}. Can you give me more information?"
+  },
+  "BookNowForm": {
+    "selectedPackage": "YOU HAVE SELECTED: {tourName}",
+    "fullName": "Full Name *",
+    "fullNamePlaceholder": "e.g. John Doe",
+    "email": "Email Address *",
+    "emailPlaceholder": "you@email.com",
+    "phone": "Phone / WhatsApp *",
+    "phonePlaceholder": "+1 234 567 890",
+    "startDate": "Start Date *",
+    "endDate": "End Date *",
+    "travelersSelect": "Select the number of travelers:",
+    "roomSelectDesc": "Please select the room type(s).",
+    "singleRooms": "Single Rooms",
+    "doubleRooms": "Double Rooms",
+    "rooms0": "0 Rooms",
+    "rooms1": "1 Room",
+    "rooms2": "2 Rooms",
+    "rooms3": "3+ Rooms",
+    "accommodationCategory": "Accommodation Category *",
+    "accommodationOptions": {
+      "Económico": "Budget",
+      "Turista": "Tourist",
+      "Superior": "Superior",
+      "Lujo": "Luxury"
+    },
+    "comments": "Comments",
+    "commentsPlaceholder": "Do you have any special requests or allergies?",
+    "submitButton": "Request Booking via WhatsApp",
+    "whatsappMessage": "Hello Continents Team! ✈️ I would like to book:\n\n🎒 *Package:* {tourName}\n👤 *Name:* {nombre}\n📧 *Email:* {email}\n📱 *Tel:* {telefono}\n📅 *Dates:* {startDate} to {endDate}\n🛏️ *Rooms:* {singleRooms} Singles | {doubleRooms} Doubles\n🏨 *Category:* {accommodation}\n💬 *Comments:* {comments}"
+  },
+  "Footer": {
+    "description": "We design unforgettable experiences taking care of every detail of your trip. Experts in connecting travelers with the best destinations in the world.",
+    "explore": "Explore",
+    "packages": "Tour Packages",
+    "destinations": "Destinations",
+    "specialOffers": "Special Offers",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "scheduleTitle": "Schedule:",
+    "scheduleDesc": "Mon - Fri: 9am to 6pm",
+    "scheduleDesc2": "Saturdays: 9am to 1pm",
+    "legal": "Legal",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policies",
+    "claimsBookLine1": "Complaints",
+    "claimsBookLine2": "Book",
+    "copyright": "© {year} Continents Travel & Tours. All rights reserved.",
+    "securePayment": "Secure Payment",
+    "sslCertificate": "SSL Certificate"
+  },
+  "PriceAndHotels": {
+    "noInfo": "Pricing information not available.",
+    "category": "Category {category}",
+    "hotelIn": "Hotel in {loc}",
+    "doubleTriple": "Double/Triple (pp)",
+    "single": "Single",
+    "notes": "Additional Notes"
+  },
+  "ProgramDetailTable": {
+    "noInfo": "The details of this program will be available very soon."
+  },
+  "TourInclusions": {
+    "noInfo": "Information not available.",
+    "included": "What is included",
+    "notIncluded": "Not included"
+  },
+  "UsefulInfo": {
+    "noInfo": "Information not available.",
+    "title": "Useful Information for Your Trip"
+  },
+  "ToursPage": {
+    "title": "Our Tour Packages",
+    "description": "Explore our selection of unique experiences. From archaeological adventures to luxury getaways, we have the perfect trip for you.",
+    "tabs": {
+      "nacional": "Domestic",
+      "internacional": "International",
+      "europa": "Europe",
+      "usa": "USA"
+    },
+    "loading": "Preparing your next destinations...",
+    "emptyTitle": "No packages here yet",
+    "emptyDesc": "We are designing new experiences for this region. Come back soon!"
+  },
+  "FlightsPage": {
+    "title": "Flight Offers",
+    "description": "Promotional fares with limited seats. Find your destination and book instantly via WhatsApp.",
+    "tabs": {
+      "nacionales": "Domestic",
+      "internacionales": "International"
+    },
+    "legendsTitle": "WHAT COULD YOUR FARE INCLUDE?",
+    "leyendas": {
+      "personal": "Personal item",
+      "carryon": "Carry-on bag (10-12kg)",
+      "checked": "Checked bag (23kg)",
+      "change": "Changes allowed",
+      "refund": "Refundable",
+      "seat": "Seat selection"
+    },
+    "loading": "Searching for the best fares...",
+    "emptyDesc": "No offers available in this category at the moment."
+  },
+  "OffersPage": {
+    "title": "Exclusive Offers",
+    "description": "Take advantage of our limited-time discounts. The best experiences at the best price, always maintaining our premium quality.",
+    "emptyTitle": "We ran out of offers",
+    "emptyDesc": "Our discounted spots flew away. Come back soon to discover new promotions or visit our regular packages."
+  },
+  "ItinerarySection": {
+    "noInfo": "Itinerary not available.",
+    "mapTitle": "Route Map",
+    "hideMap": "Hide Map",
+    "showMap": "Show Map",
+    "day": "Day {num}",
+    "meals": {
+      "b": "B = Breakfast",
+      "l": "L = Lunch",
+      "d": "D = Dinner"
+    }
+  },
+  "HomePage": {
+    "mostSearched": "Most Searched Destinations",
+    "emptyTour": "No packages available yet. We are preparing new adventures!"
+  },
+  "HeroSlider": {
+    "slides": {
+      "1": {
+        "title": "Discover the Inca Empire",
+        "subtitle": "Offers on packages to Cusco",
+        "cta": "View Promotion"
+      },
+      "2": {
+        "title": "Gastronomic Lima",
+        "subtitle": "Exclusive culinary tours",
+        "cta": "Book Now"
+      }
+    }
+  },
+  "ValueProposition": {
+    "title": "Why travel with Continents?",
+    "description": "We turn your dream vacation into a hassle-free reality, backed by true tourism experts.",
+    "benefits": {
+      "localExperts": "Local Experts",
+      "localExpertsDesc": "Passionate native guides eager to show you the best-kept secrets of each destination.",
+      "safeTravel": "Safe Travel",
+      "safeTravelDesc": "24/7 assistance and safety protocols so you only worry about enjoying yourself.",
+      "premium": "Premium Experiences",
+      "premiumDesc": "We select the best hotels and services to ensure your maximum comfort."
+    }
+  },
+  "Newsletter": {
+    "title": "Join our traveler's club",
+    "description": "Subscribe to receive exclusive offers, destination guides, and plenty of inspiration for your next trip.",
+    "placeholder": "Your email address",
+    "button": "Subscribe",
+    "disclaimer": "We don’t send spam. You can unsubscribe at any time.",
+    "successMessage": "Subscription successful! (To be connected in the integration phase)"
+  }
+}

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export function TourInclusions({ data }: { data: any }) {
-  if (!data) return <p className="text-ui-text">Información no disponible.</p>;
+  const t = useTranslations('TourInclusions');
+  if (!data) return <p className="text-ui-text">{t('noInfo')}</p>;
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in">
       
@@ -14,7 +16,7 @@ export function TourInclusions({ data }: { data: any }) {
           <span className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 shrink-0">
             ✓
           </span> 
-          Lo que incluye
+          {t('included')}
         </h3>
         
         <div className="flex flex-col gap-6">
@@ -45,7 +47,7 @@ export function TourInclusions({ data }: { data: any }) {
           <span className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/50 text-red-500 dark:text-red-400 font-bold shrink-0">
             ✕
           </span> 
-          No incluido
+          {t('notIncluded')}
         </h3>
         
         <ul className="flex flex-col gap-3">

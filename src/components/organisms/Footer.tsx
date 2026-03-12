@@ -1,8 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations('Footer');
 
   return (
     <footer className="bg-ui-surface border-t border-ui-border pt-16 pb-8">
@@ -21,7 +23,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-ui-text leading-relaxed mt-2">
-              Diseñamos experiencias inolvidables cuidando cada detalle de tu viaje. Expertos en conectar viajeros con los mejores destinos del mundo.
+              {t('description')}
             </p>
             {/* Íconos de Redes Sociales */}
             <div className="flex gap-4 mt-2">
@@ -39,18 +41,18 @@ export function Footer() {
 
           {/* COLUMNA 2: Enlaces Rápidos */}
           <div>
-            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">Explora</h4>
+            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">{t('explore')}</h4>
             <ul className="flex flex-col gap-3 text-sm text-ui-text">
-              <li><Link href="/paquetes" className="hover:text-secondary transition-colors">Paquetes Turísticos</Link></li>
-              <li><Link href="/destinos" className="hover:text-secondary transition-colors">Destinos</Link></li>
-              <li><Link href="/ofertas" className="hover:text-secondary transition-colors font-medium text-secondary">Ofertas Especiales</Link></li>
-              <li><Link href="/nosotros" className="hover:text-secondary transition-colors">Sobre Nosotros</Link></li>
+              <li><Link href="/paquetes" className="hover:text-secondary transition-colors">{t('packages')}</Link></li>
+              <li><Link href="/destinos" className="hover:text-secondary transition-colors">{t('destinations')}</Link></li>
+              <li><Link href="/ofertas" className="hover:text-secondary transition-colors font-medium text-secondary">{t('specialOffers')}</Link></li>
+              <li><Link href="/nosotros" className="hover:text-secondary transition-colors">{t('aboutUs')}</Link></li>
             </ul>
           </div>
 
           {/* COLUMNA 3: Contacto */}
           <div>
-            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">Contacto</h4>
+            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">{t('contact')}</h4>
             <ul className="flex flex-col gap-3 text-sm text-ui-text">
               <li className="flex items-start gap-2">
                 <span className="font-bold">Whatsapp:</span>
@@ -61,26 +63,26 @@ export function Footer() {
                 <a href="mailto:reservas@continents.com" className="hover:text-secondary transition-colors">reservas@continents.com</a>
               </li>
               <li className="flex items-start gap-2">
-                <span className="font-bold">Horario:</span>
-                <span>Lun - Vie: 9am a 6pm<br/>Sábados: 9am a 1pm</span>
+                <span className="font-bold">{t('scheduleTitle')}</span>
+                <span dangerouslySetInnerHTML={{ __html: t('scheduleDesc') + '<br/>' + t('scheduleDesc2') }} />
               </li>
             </ul>
           </div>
 
           {/* COLUMNA 4: Legal & INDECOPI */}
           <div>
-            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">Legal</h4>
+            <h4 className="font-bold text-ui-heading mb-4 uppercase tracking-wider text-sm">{t('legal')}</h4>
             <ul className="flex flex-col gap-3 text-sm text-ui-text">
-              <li><Link href="/terminos" className="hover:text-secondary transition-colors">Términos y Condiciones</Link></li>
-              <li><Link href="/privacidad" className="hover:text-secondary transition-colors">Políticas de Privacidad</Link></li>
+              <li><Link href="/terminos" className="hover:text-secondary transition-colors">{t('terms')}</Link></li>
+              <li><Link href="/privacidad" className="hover:text-secondary transition-colors">{t('privacy')}</Link></li>
               
               {/* Botón Libro de Reclamaciones (Requerido en Perú) */}
               <li className="mt-2">
                 <Link href="/reclamaciones" className="inline-flex items-center gap-2 border border-ui-border rounded-lg p-2 hover:bg-ui-bg transition-colors">
                   <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase font-bold text-ui-heading">Libro de</span>
-                    <span className="text-xs font-bold text-primary">Reclamaciones</span>
+                    <span className="text-[10px] uppercase font-bold text-ui-heading">{t('claimsBookLine1')}</span>
+                    <span className="text-xs font-bold text-primary">{t('claimsBookLine2')}</span>
                   </div>
                 </Link>
               </li>
@@ -91,11 +93,11 @@ export function Footer() {
 
         {/* BARRA INFERIOR: Copyright */}
         <div className="pt-8 border-t border-ui-border flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-ui-text">
-          <p>© {currentYear} Continents Travel & Tours. Todos los derechos reservados.</p>
+          <p>{t('copyright', { year: currentYear })}</p>
           <div className="flex gap-3">
             {/* Aquí luego puedes poner iconos de Visa, Mastercard, PayPal */}
-            <span className="px-2 py-1 bg-ui-bg rounded border border-ui-border">Pago Seguro</span>
-            <span className="px-2 py-1 bg-ui-bg rounded border border-ui-border">SSL Certificado</span>
+            <span className="px-2 py-1 bg-ui-bg rounded border border-ui-border">{t('securePayment')}</span>
+            <span className="px-2 py-1 bg-ui-bg rounded border border-ui-border">{t('sslCertificate')}</span>
           </div>
         </div>
 

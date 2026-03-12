@@ -1,7 +1,10 @@
 import { supabase } from "@/lib/supabase";
 import { DestinationCard } from "@/components/molecules/DestinationCard";
+import { getTranslations } from "next-intl/server";
 
-export default async function OfertasPage() {
+export default async function OfertasPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'OffersPage' });
   
   // Consultamos a Supabase pidiendo SOLO los que tienen un badge_text (Ofertas)
   const { data: tours, error } = await supabase
@@ -25,10 +28,10 @@ export default async function OfertasPage() {
         <div className="mb-10 animate-fade-in">
           <h1 className="text-3xl md:text-4xl font-bold text-secondary mb-4 flex items-center gap-3">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-            Ofertas Exclusivas
+            {t('title')}
           </h1>
           <p className="text-ui-text text-lg max-w-2xl">
-            Aprovecha nuestros descuentos por tiempo limitado. Las mejores experiencias al mejor precio, manteniendo siempre nuestra calidad premium.
+            {t('description')}
           </p>
         </div>
 
@@ -50,9 +53,9 @@ export default async function OfertasPage() {
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl border border-ui-border shadow-sm">
             <div className="text-6xl mb-4">⏳</div>
-            <h3 className="text-2xl font-bold text-ui-heading mb-2">Se nos acabaron las ofertas</h3>
+            <h3 className="text-2xl font-bold text-ui-heading mb-2">{t('emptyTitle')}</h3>
             <p className="text-ui-text text-lg">
-              Nuestros cupos con descuento volaron. Regresa pronto para descubrir nuevas promociones o visita nuestros paquetes regulares.
+              {t('emptyDesc')}
             </p>
           </div>
         )}

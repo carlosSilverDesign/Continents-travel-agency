@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { DestinationCard } from "@/components/molecules/DestinationCard";
 import { supabase } from "@/lib/supabase";
 
@@ -11,6 +12,7 @@ const tabs = [
 ];
 
 export default function PaquetesPage() {
+  const t = useTranslations('ToursPage');
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const [tours, setTours] = useState<any[]>([]);
   const [cargando, setCargando] = useState(true);
@@ -43,10 +45,10 @@ export default function PaquetesPage() {
         {/* CABECERA DE LA PÁGINA */}
         <div className="mb-10 text-center animate-fade-in">
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Nuestros Paquetes Turísticos
+            {t('title')}
           </h1>
           <p className="text-ui-text text-lg max-w-2xl mx-auto">
-            Explora nuestra selección de experiencias únicas. Desde aventuras arqueológicas hasta escapadas de lujo, tenemos el viaje perfecto para ti.
+            {t('description')}
           </p>
         </div>
 
@@ -63,7 +65,8 @@ export default function PaquetesPage() {
                     : 'text-ui-text hover:text-primary'
                 }`}
               >
-                {tab.label}
+                {/* @ts-ignore */}
+                {t(`tabs.${tab.id}`)}
               </button>
             ))}
           </div>
@@ -72,7 +75,7 @@ export default function PaquetesPage() {
         {/* GRILLA DE RESULTADOS */}
         {cargando ? (
           <div className="text-center py-20 text-ui-text font-medium animate-pulse">
-            Preparando tus próximos destinos...
+            {t('loading')}
           </div>
         ) : toursAMostrar.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
@@ -91,9 +94,9 @@ export default function PaquetesPage() {
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl border border-ui-border shadow-sm">
             <div className="text-5xl mb-4">🧳</div>
-            <h3 className="text-xl font-bold text-ui-heading mb-2">Aún no hay paquetes aquí</h3>
+            <h3 className="text-xl font-bold text-ui-heading mb-2">{t('emptyTitle')}</h3>
             <p className="text-ui-text">
-              Estamos diseñando nuevas experiencias para esta región. ¡Vuelve pronto!
+              {t('emptyDesc')}
             </p>
           </div>
         )}

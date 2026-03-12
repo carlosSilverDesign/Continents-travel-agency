@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 // Datos estáticos de los beneficios (Podemos cambiarlos a inglés después junto con el resto del sitio)
 const benefits = [
@@ -20,14 +21,15 @@ const benefits = [
 ];
 
 export function ValueProposition() {
+  const t = useTranslations('ValueProposition');
   return (
     <section className="bg-ui-surface py-16 md:py-24 border-t border-ui-border">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">¿Por qué viajar con Continents?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">{t('title')}</h2>
           <p className="text-ui-text text-lg max-w-2xl mx-auto">
-            Convertimos tus vacaciones de ensueño en una realidad sin complicaciones, con el respaldo de verdaderos expertos en turismo.
+            {t('description')}
           </p>
         </div>
 
@@ -40,8 +42,17 @@ export function ValueProposition() {
               <div className="text-5xl mb-6 bg-white w-20 h-20 flex items-center justify-center rounded-full shadow-sm">
                 {benefit.icon}
               </div>
-              <h3 className="text-xl font-bold text-ui-heading mb-3">{benefit.title}</h3>
-              <p className="text-ui-text leading-relaxed">{benefit.description}</p>
+              <h3 className="text-xl font-bold text-ui-heading mb-3">
+                {/* Asumimos que benefit.title mapera a una key estática y segura en en.json/es.json */}
+                {benefit.title === 'Expertos Locales' ? t('benefits.localExperts') : 
+                 benefit.title === 'Viaje Seguro' ? t('benefits.safeTravel') : 
+                 t('benefits.premium')}
+              </h3>
+              <p className="text-ui-text leading-relaxed">
+                {benefit.title === 'Expertos Locales' ? t('benefits.localExpertsDesc') : 
+                 benefit.title === 'Viaje Seguro' ? t('benefits.safeTravelDesc') : 
+                 t('benefits.premiumDesc')}
+              </p>
             </div>
           ))}
         </div>

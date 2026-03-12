@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { FlightCard, FlightIcons } from '@/components/molecules/FlightCard';
 import { supabase } from '@/lib/supabase';
 
@@ -14,6 +15,7 @@ const leyendas = [
 ];
 
 export default function VuelosPage() {
+  const t = useTranslations('FlightsPage');
   const [activeTab, setActiveTab] = useState<'nacionales' | 'internacionales'>('nacionales');
   const [vuelos, setVuelos] = useState<any[]>([]);
   const [cargando, setCargando] = useState(true);
@@ -44,9 +46,9 @@ export default function VuelosPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
 
         <div className="mb-8 text-center animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Ofertas de Vuelos</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">{t('title')}</h1>
           <p className="text-ui-text text-lg max-w-2xl mx-auto">
-            Tarifas promocionales con cupos limitados. Encuentra tu destino y reserva al instante a través de WhatsApp.
+            {t('description')}
           </p>
         </div>
 
@@ -54,15 +56,15 @@ export default function VuelosPage() {
         <div className="flex flex-col items-center gap-6 mb-10 animate-fade-in">
 
           <div className="bg-ui-surface p-1 rounded-xl border border-ui-border shadow-sm inline-flex">
-            <button onClick={() => setActiveTab('nacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'nacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>Nacionales</button>
-            <button onClick={() => setActiveTab('internacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'internacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>Internacionales</button>
+            <button onClick={() => setActiveTab('nacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'nacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.nacionales')}</button>
+            <button onClick={() => setActiveTab('internacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'internacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.internacionales')}</button>
           </div>
 
           {/* LEYENDA DE ÍCONOS (Ajustada al ancho completo y scroll corregido para Tablets) */}
           {/* Quitamos max-w-4xl para que tome el w-full y se alinee perfectamente con los Cards */}
           <div className="w-full bg-ui-surface rounded-xl border border-ui-border p-4 md:p-5 shadow-sm">
             <p className="text-[10px] uppercase font-bold text-ui-text/70 mb-3 text-center md:text-left tracking-wider">
-              ¿Qué podría incluir tu tarifa?
+              {t('legendsTitle')}
             </p>
             {/* Forzamos justify-start en móviles y tablets para que el scroll siempre inicie en "Accesorio Personal". 
                 Solo usamos xl:justify-center en pantallas gigantes donde sabemos que no habrá desborde. */}
@@ -70,7 +72,8 @@ export default function VuelosPage() {
               {leyendas.map((item) => (
                 <div key={item.key} className="flex items-center gap-1.5 whitespace-nowrap bg-ui-bg/50 px-3 py-2 rounded-lg border border-ui-border/50 shrink-0">
                   <span className="text-primary">{FlightIcons[item.key]}</span>
-                  <span className="text-[11px] md:text-xs text-ui-text font-medium">{item.text}</span>
+                  {/* @ts-ignore */}
+                  <span className="text-[11px] md:text-xs text-ui-text font-medium">{t(`leyendas.${item.key}`)}</span>
                 </div>
               ))}
             </div>
@@ -81,7 +84,7 @@ export default function VuelosPage() {
         {/* GRILLA DE VUELOS DESDE SUPABASE */}
         {cargando ? (
           <div className="text-center py-20 text-ui-text font-medium animate-pulse">
-            Buscando las mejores tarifas...
+            {t('loading')}
           </div>
         ) : vuelosAMostrar.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
@@ -103,7 +106,7 @@ export default function VuelosPage() {
         ) : (
           <div className="text-center py-20 bg-ui-surface rounded-2xl border border-ui-border shadow-sm">
             <div className="text-4xl mb-3">✈️</div>
-            <p className="text-ui-text text-lg font-medium">No hay ofertas disponibles en esta categoría por el momento.</p>
+            <p className="text-ui-text text-lg font-medium">{t('emptyDesc')}</p>
           </div>
         )}
 

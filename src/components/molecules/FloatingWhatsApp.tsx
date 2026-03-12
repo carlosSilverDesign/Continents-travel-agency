@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export function FloatingWhatsApp() {
+  const t = useTranslations('FloatingWhatsApp');
   const numeroVentas = "51999999999"; // Recuerda cambiar esto por tu número real
-  const mensaje = "¡Hola Continents Travel! Quiero hablar con una persona para planificar mi viaje.";
+  const mensaje = t('message');
   const linkWhatsApp = `https://wa.me/${numeroVentas}?text=${encodeURIComponent(mensaje)}`;
 
   return (
@@ -30,7 +32,7 @@ export function FloatingWhatsApp() {
           <text className="text-[9.5px]">
             {/* startOffset="25%" lo ancla EXACTAMENTE en la cima (mitad superior) del círculo completo */}
             <textPath href="#textPath" startOffset="72" textAnchor="middle">
-              ¡Escríbenos!
+              {t('writeUs')}
             </textPath>
           </text>
         

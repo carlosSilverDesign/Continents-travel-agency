@@ -14,6 +14,7 @@ const INCLUSIONES_DISPONIBLES = [
 ];
 
 export default function NuevoVueloAdmin() {
+  const [locale, setLocale] = useState('es');
   const [cargando, setCargando] = useState(false);
 
   // ==============================================================================
@@ -58,6 +59,7 @@ export default function NuevoVueloAdmin() {
     try {
       // 1. Armamos el objeto final (¡Ya no hay que limpiar ni hacer split!)
       const flightData = {
+        locale: locale,
         origin: flight.origin,
         destination: flight.destination,
         flight_type: flight.flight_type,
@@ -113,6 +115,33 @@ export default function NuevoVueloAdmin() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
+        {/* =========================================================
+            SECCIÓN 0: IDIOMA DE PUBLICACIÓN
+            ========================================================= */}
+        <section className="bg-ui-surface p-6 md:p-8 rounded-2xl border border-ui-border shadow-sm">
+          <SectionTitle step={0}>Idioma de Publicación</SectionTitle>
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-ui-text">¿En qué idioma están escritos los datos de este vuelo?</p>
+            <div className="flex items-center gap-6">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${locale === 'es' ? 'border-secondary' : 'border-ui-border group-hover:border-secondary/50'}`}>
+                  {locale === 'es' && <div className="w-2.5 h-2.5 rounded-full bg-secondary" />}
+                </div>
+                <input type="radio" name="flightLocale" value="es" checked={locale === 'es'} onChange={() => setLocale('es')} className="hidden" />
+                <span className={`font-bold ${locale === 'es' ? 'text-secondary' : 'text-ui-text'}`}>Español (ES)</span>
+              </label>
+              
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${locale === 'en' ? 'border-secondary' : 'border-ui-border group-hover:border-secondary/50'}`}>
+                  {locale === 'en' && <div className="w-2.5 h-2.5 rounded-full bg-secondary" />}
+                </div>
+                <input type="radio" name="flightLocale" value="en" checked={locale === 'en'} onChange={() => setLocale('en')} className="hidden" />
+                <span className={`font-bold ${locale === 'en' ? 'text-secondary' : 'text-ui-text'}`}>English (EN)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
         {/* =========================================================
             SECCIÓN 1: RUTA Y DETALLES BÁSICOS
             ========================================================= */}

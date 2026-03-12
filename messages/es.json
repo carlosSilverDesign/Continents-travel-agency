@@ -1,0 +1,200 @@
+{
+  "Header": {
+    "bookNow": "Reserva Ahora",
+    "tours": "Paquetes",
+    "flights": "Vuelos",
+    "offers": "Ofertas",
+    "contact": "Contacta un asesor"
+  },
+  "FloatingWhatsApp": {
+    "message": "¡Hola Continents Travel! Quiero hablar con una persona para planificar mi viaje.",
+    "writeUs": "¡Escríbenos!"
+  },
+  "TourTabs": {
+    "detail": "Resumen",
+    "itinerary": "Itinerario",
+    "inclusions": "Inclusiones",
+    "info": "Info útil",
+    "hotels": "Tarifas y Hoteles",
+    "book": "Reserva Ahora",
+    "programSummary": "Resumen del Programa"
+  },
+  "DestinationCard": {
+    "days": "{count} Días",
+    "from": "Desde",
+    "viewMore": "Ver más"
+  },
+  "FlightCard": {
+    "flightsTo": "Vuelos a {destination}",
+    "departingFrom": "Partiendo desde {origin}",
+    "priceFrom": "Precio desde:",
+    "bookNow": "Reservar",
+    "whatsappMessage": "¡Hola Continents! Quiero reservar la oferta de vuelo a {destination} del {dateRange} por US$ {priceUsd}."
+  },
+  "TourDetail": {
+    "days": "Días",
+    "nights": "Noches",
+    "pricePerPerson": "Precio por persona",
+    "basePriceDisclaimer": "Precio base en ocupación doble.",
+    "bookNow": "Reservar ahora",
+    "whatsappMessage": "¡Hola Continents Travel! Quiero reservar el paquete \"{title}\" por US$ {price}. ¿Me dan más información?"
+  },
+  "BookNowForm": {
+    "selectedPackage": "HAS SELECCIONADO: {tourName}",
+    "fullName": "Nombre completo *",
+    "fullNamePlaceholder": "Ej. Juan Pérez",
+    "email": "Correo electrónico *",
+    "emailPlaceholder": "tu@correo.com",
+    "phone": "Teléfono / WhatsApp *",
+    "phonePlaceholder": "+51 999 999 999",
+    "startDate": "Fecha de inicio *",
+    "endDate": "Fecha de fin *",
+    "travelersSelect": "Selecciona el número de viajeros:",
+    "roomSelectDesc": "Por favor selecciona el tipo de habitación(es).",
+    "singleRooms": "Hab. Simples",
+    "doubleRooms": "Hab. Dobles",
+    "rooms0": "0 Habitaciones",
+    "rooms1": "1 Habitación",
+    "rooms2": "2 Habitaciones",
+    "rooms3": "3+ Habitaciones",
+    "accommodationCategory": "Categoría de alojamiento *",
+    "accommodationOptions": {
+      "Económico": "Económico",
+      "Turista": "Turista",
+      "Superior": "Superior",
+      "Lujo": "Lujo"
+    },
+    "comments": "Comentarios",
+    "commentsPlaceholder": "¿Tienes algún requerimiento especial o alergias?",
+    "submitButton": "Solicitar Reserva por WhatsApp",
+    "whatsappMessage": "Hola Equipo Continents! ✈️ Me gustaría reservar:\n\n🎒 *Paquete:* {tourName}\n👤 *Nombre:* {nombre}\n📧 *Email:* {email}\n📱 *Tel:* {telefono}\n📅 *Fechas:* {startDate} al {endDate}\n🛏️ *Habitaciones:* {singleRooms} Simples | {doubleRooms} Dobles\n🏨 *Categoría:* {accommodation}\n💬 *Comentarios:* {comments}"
+  },
+  "Footer": {
+    "description": "Diseñamos experiencias inolvidables cuidando cada detalle de tu viaje. Expertos en conectar viajeros con los mejores destinos del mundo.",
+    "explore": "Explora",
+    "packages": "Paquetes Turísticos",
+    "destinations": "Destinos",
+    "specialOffers": "Ofertas Especiales",
+    "aboutUs": "Sobre Nosotros",
+    "contact": "Contacto",
+    "scheduleTitle": "Horario:",
+    "scheduleDesc": "Lun - Vie: 9am a 6pm",
+    "scheduleDesc2": "Sábados: 9am a 1pm",
+    "legal": "Legal",
+    "terms": "Términos y Condiciones",
+    "privacy": "Políticas de Privacidad",
+    "claimsBookLine1": "Libro de",
+    "claimsBookLine2": "Reclamaciones",
+    "copyright": "© {year} Continents Travel & Tours. Todos los derechos reservados.",
+    "securePayment": "Pago Seguro",
+    "sslCertificate": "SSL Certificado"
+  },
+  "PriceAndHotels": {
+    "noInfo": "Información de precios no disponible.",
+    "category": "Categoría {category}",
+    "hotelIn": "Hotel en {loc}",
+    "doubleTriple": "Doble/Triple (pp)",
+    "single": "Simple",
+    "notes": "Notas Adicionales"
+  },
+  "ProgramDetailTable": {
+    "noInfo": "Los detalles de este programa estarán disponibles muy pronto."
+  },
+  "TourInclusions": {
+    "noInfo": "Información no disponible.",
+    "included": "Lo que incluye",
+    "notIncluded": "No incluido"
+  },
+  "UsefulInfo": {
+    "noInfo": "Información no disponible.",
+    "title": "Información Útil para tu Viaje"
+  },
+  "ToursPage": {
+    "title": "Nuestros Paquetes Turísticos",
+    "description": "Explora nuestra selección de experiencias únicas. Desde aventuras arqueológicas hasta escapadas de lujo, tenemos el viaje perfecto para ti.",
+    "tabs": {
+      "nacional": "Nacional",
+      "internacional": "Internacional",
+      "europa": "Europa",
+      "usa": "USA"
+    },
+    "loading": "Preparando tus próximos destinos...",
+    "emptyTitle": "Aún no hay paquetes aquí",
+    "emptyDesc": "Estamos diseñando nuevas experiencias para esta región. ¡Vuelve pronto!"
+  },
+  "FlightsPage": {
+    "title": "Ofertas de Vuelos",
+    "description": "Tarifas promocionales con cupos limitados. Encuentra tu destino y reserva al instante a través de WhatsApp.",
+    "tabs": {
+      "nacionales": "Nacionales",
+      "internacionales": "Internacionales"
+    },
+    "legendsTitle": "¿Qué podría incluir tu tarifa?",
+    "leyendas": {
+      "personal": "Accesorio personal",
+      "carryon": "Equipaje de mano (10-12kg)",
+      "checked": "Maleta facturada (23kg)",
+      "change": "Cambios permitidos",
+      "refund": "Reembolso",
+      "seat": "Selección de asiento"
+    },
+    "loading": "Buscando las mejores tarifas...",
+    "emptyDesc": "No hay ofertas disponibles en esta categoría por el momento."
+  },
+  "OffersPage": {
+    "title": "Ofertas Exclusivas",
+    "description": "Aprovecha nuestros descuentos por tiempo limitado. Las mejores experiencias al mejor precio, manteniendo siempre nuestra calidad premium.",
+    "emptyTitle": "Se nos acabaron las ofertas",
+    "emptyDesc": "Nuestros cupos con descuento volaron. Regresa pronto para descubrir nuevas promociones o visita nuestros paquetes regulares."
+  },
+  "ItinerarySection": {
+    "noInfo": "Itinerario no disponible.",
+    "mapTitle": "Mapa de Ruta",
+    "hideMap": "Ocultar Mapa",
+    "showMap": "Ver Mapa",
+    "day": "Día {num}",
+    "meals": {
+      "b": "D = Desayuno",
+      "l": "A = Almuerzo",
+      "d": "C = Cena"
+    }
+  },
+  "HomePage": {
+    "mostSearched": "Destinos más buscados",
+    "emptyTour": "Aún no hay paquetes disponibles. ¡Estamos preparando nuevas aventuras!"
+  },
+  "HeroSlider": {
+    "slides": {
+      "1": {
+        "title": "Descubre el Imperio Inca",
+        "subtitle": "Ofertas en paquetes a Cusco",
+        "cta": "Ver Promoción"
+      },
+      "2": {
+        "title": "Lima Gastronómica",
+        "subtitle": "Tours culinarios exclusivos",
+        "cta": "Reserva Ahora"
+      }
+    }
+  },
+  "ValueProposition": {
+    "title": "¿Por qué viajar con Continents?",
+    "description": "Convertimos tus vacaciones de ensueño en una realidad sin complicaciones, con el respaldo de verdaderos expertos en turismo.",
+    "benefits": {
+      "localExperts": "Expertos Locales",
+      "localExpertsDesc": "Guías nativos apasionados por mostrarte los secretos mejor guardados de cada destino.",
+      "safeTravel": "Viaje Seguro",
+      "safeTravelDesc": "Asistencia 24/7 y protocolos de seguridad para que solo te preocupes por disfrutar.",
+      "premium": "Experiencias Premium",
+      "premiumDesc": "Seleccionamos los mejores hoteles y servicios para garantizar tu máxima comodidad."
+    }
+  },
+  "Newsletter": {
+    "title": "Únete a nuestro club de viajeros",
+    "description": "Suscríbete para recibir ofertas exclusivas, guías de destinos y mucha inspiración para tu próximo viaje.",
+    "placeholder": "Tu correo electrónico",
+    "button": "Suscribirme",
+    "disclaimer": "No enviamos spam. Puedes darte de baja en cualquier momento.",
+    "successMessage": "¡Suscripción exitosa! (A conectar en la fase de integraciones)"
+  }
+}

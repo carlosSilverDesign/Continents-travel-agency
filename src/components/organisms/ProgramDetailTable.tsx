@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 // Definimos la estructura exacta que le pasamos desde la base de datos
 interface DetailItem {
@@ -11,10 +12,11 @@ interface ProgramDetailProps {
 }
 
 export function ProgramDetailTable({ details }: ProgramDetailProps) {
+  const t = useTranslations('ProgramDetailTable');
   
   // Si por alguna razón el tour aún no tiene detalles llenos, mostramos un mensaje bonito
   if (!details || details.length === 0) {
-    return <p className="text-ui-text">Los detalles de este programa estarán disponibles muy pronto.</p>;
+    return <p className="text-ui-text">{t('noInfo')}</p>;
   }
 
   return (

@@ -7,6 +7,7 @@ import { TourInclusions } from "./TourInclusions";
 import { UsefulInfo } from "./UsefulInfo";
 import { PriceAndHotels } from "./PriceAndHotels";
 import { BookNowForm } from "./BookNowForm";
+import { useTranslations } from 'next-intl';
 
 // 1. Agregamos tourName a las propiedades que recibe este componente
 interface TourTabsProps {
@@ -21,17 +22,18 @@ interface TourTabsProps {
 
 // 2. Extraemos tourName de las propiedades
 export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itineraries, mapImage, tourName }: TourTabsProps) {
+  const t = useTranslations('TourTabs');
   // Estado para saber qué pestaña está activa (por defecto la primera)
   const [activeTab, setActiveTab] = useState('detail');
 
   // Los botones de las pestañas
   const tabs = [
-    { id: 'detail', label: 'Resumen' },
-    { id: 'itinerary', label: 'Itinerario' },
-    { id: 'inclusions', label: 'Inclusiones' },
-    { id: 'info', label: 'Info útil' },
-    { id: 'hotels', label: 'Tarifas y Hoteles' },
-    { id: 'book', label: 'Reserva Ahora' },
+    { id: 'detail', label: t('detail') },
+    { id: 'itinerary', label: t('itinerary') },
+    { id: 'inclusions', label: t('inclusions') },
+    { id: 'info', label: t('info') },
+    { id: 'hotels', label: t('hotels') },
+    { id: 'book', label: t('book') },
   ];
 
   return (
@@ -57,7 +59,7 @@ export function TourTabs({ programDetail, inclusions, usefulInfo, hotels, itiner
       <div className="py-8 min-h-[300px]">
         {activeTab === 'detail' && (
           <div className="animate-fade-in">
-            <h3 className="text-xl font-bold text-ui-heading mb-6">Resumen del Programa</h3>
+            <h3 className="text-xl font-bold text-ui-heading mb-6">{t('programSummary')}</h3>
             <ProgramDetailTable details={programDetail} />
           </div>
         )}
