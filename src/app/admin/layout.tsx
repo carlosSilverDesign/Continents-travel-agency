@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
 import "../globals.css";
+import { AdminHeader } from "@/components/organisms/AdminHeader";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
@@ -17,8 +18,11 @@ export default function AdminLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${inter.variable} ${syne.variable} font-sans antialiased min-h-screen`}>
-        {children}
+      <body className={`${inter.variable} ${syne.variable} font-sans antialiased min-h-screen bg-ui-bg pt-16`}>
+        <AdminHeader />
+        <main className="min-h-[calc(100vh-64px)] w-full">
+          {children}
+        </main>
       </body>
     </html>
   );
