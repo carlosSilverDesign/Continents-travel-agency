@@ -29,7 +29,12 @@
     "departingFrom": "Departing from {origin}",
     "priceFrom": "Price from:",
     "bookNow": "Book Now",
-    "whatsappMessage": "Hello Continents! I want to book the flight offer to {destination} from {dateRange} for US$ {priceUsd}."
+    "whatsappMessage": "Hello Continents! I want to book the flight offer to {destination} from {dateRange} for US$ {priceUsd}.",
+    "types": {
+      "roundTrip": "Round Trip",
+      "oneWay": "One Way",
+      "multiCity": "Multi-city"
+    }
   },
   "TourDetail": {
     "days": "Days",

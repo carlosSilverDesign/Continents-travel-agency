@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { DestinationCard } from "@/components/molecules/DestinationCard";
 import { supabase } from "@/lib/supabase";
 
@@ -12,6 +12,7 @@ const tabs = [
 ];
 
 export default function PaquetesPage() {
+  const locale = useLocale();
   const t = useTranslations('ToursPage');
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const [tours, setTours] = useState<any[]>([]);
@@ -19,10 +20,11 @@ export default function PaquetesPage() {
 
   useEffect(() => {
     async function cargarPaquetes() {
-      // Pedimos la columna "category" para poder filtrarlos
+      // Pedimos la columna "category" para poder filtrarlos y respetar el idioma
       const { data, error } = await supabase
         .from('tours')
         .select('id, title, slug, cover_image_url, duration_days, price, badge_text, category')
+        .eq('locale', locale)
         .order('created_at', { ascending: false });
 
       if (error) {

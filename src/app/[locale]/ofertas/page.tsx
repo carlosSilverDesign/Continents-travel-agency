@@ -6,10 +6,11 @@ export default async function OfertasPage({ params }: { params: Promise<{ locale
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'OffersPage' });
   
-  // Consultamos a Supabase pidiendo SOLO los que tienen un badge_text (Ofertas)
+  // Consultamos a Supabase pidiendo SOLO los que tienen un badge_text (Ofertas) y filtrando el idioma
   const { data: tours, error } = await supabase
     .from('tours')
     .select('id, title, slug, cover_image_url, duration_days, price, badge_text')
+    .eq('locale', locale)
     .not('badge_text', 'is', null) // Filtro: "Que la etiqueta NO sea nula"
     .order('id', { ascending: true });
 

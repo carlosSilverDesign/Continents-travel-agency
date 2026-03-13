@@ -1,31 +1,27 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 // ==============================================================================
 // 🔌 IMPORTACIÓN DE SUPABASE (El puente a tu base de datos)
-// Asegúrate de que la ruta '@/lib/supabase' sea la correcta en tu proyecto
 // ==============================================================================
 import { supabase } from '@/lib/supabase';
 
-export default function NuevoTourAdmin() {
+export default function EditarTourAdmin() {
+  const params = useParams();
+  const router = useRouter();
+  const id = params?.id as string;
+
   // Estado para el idioma de publicación
   const [locale, setLocale] = useState('es');
   // Estado para bloquear el botón mientras se suben los datos
   const [cargando, setCargando] = useState(false);
+  // Estado de carga inicial
+  const [cargandoDatos, setCargandoDatos] = useState(true);
+  
   // Estado para guardar los destinos disponibles
   const [destinations, setDestinations] = useState<any[]>([]);
-
-  // Cargar destinos al montar el componente
-  useEffect(() => {
-    async function fetchDestinations() {
-      const { data, error } = await supabase.from('destinations').select('id, name');
-      if (data && !error) {
-        setDestinations(data);
-      }
-    }
-    fetchDestinations();
-  }, []);
 
   // ==============================================================================
   // 📦 1. ESTADOS: DATOS BÁSICOS DEL TOUR (Tabla 'tours')
@@ -38,7 +34,6 @@ export default function NuevoTourAdmin() {
 
   // ==============================================================================
   // 📦 2. ESTADOS: PROGRAM DETAIL (Se guardará como JSONB)
-  // Pre-llenamos las llaves más comunes para ahorrarle trabajo al agente
   // ==============================================================================
   const [programDetails, setProgramDetails] = useState([
     { key: 'Precio', value: '' }, { key: 'Condiciones', value: '' },
@@ -49,7 +44,6 @@ export default function NuevoTourAdmin() {
 
   // ==============================================================================
   // 📦 3. ESTADOS: ITINERARIO (Tabla 'itineraries' - Relacional)
-  // Arreglo dinámico. Cada objeto es una fila nueva en la base de datos.
   // ==============================================================================
   const [itinerary, setItinerary] = useState([{ day_number: 1, title: '', description: '', image_url: '' }]);
 
@@ -73,12 +67,122 @@ export default function NuevoTourAdmin() {
     { category: '', hotelsText: '', priceDouble: '', priceSingle: '' }
   ]);
 
+  // Cargar destinos al montar el componente
+  useEffect(() => {
+    async function fetchDestinations() {
+      const { data, error } = await supabase.from('destinations').select('id, name');
+      if (data && !error) {
+        setDestinations(data);
+      }
+    }
+    fetchDestinations();
+  }, []);
 
   // ==============================================================================
-  // 🔄 7. EFECTO: TRADUCCIÓN AUTOMÁTICA DE LAS LLAVES DEL PROGRAM DETAIL
-  // Escucha los cambios del locale (es/en) y traduce solo la llave (no el value)
+  // 🔄 CARGA INICIAL: TRAER DATOS DEL TOUR EXISTENTE
   // ==============================================================================
   useEffect(() => {
+    if (!id) return;
+
+    async function fetchTour() {
+      try {
+        const { data, error } = await supabase
+          .from('tours')
+          .select('*, itineraries(*)')
+          .eq('id', id)
+          .single();
+
+        if (error) throw error;
+        
+        if (data) {
+          setLocale(data.locale || 'es');
+          setBasic({
+            title: data.title || '',
+            slug: data.slug || '',
+            price: data.price ? data.price.toString() : '',
+            duration_days: data.duration_days ? data.duration_days.toString() : '',
+            duration_nights: data.duration_nights ? data.duration_nights.toString() : '',
+            cover_image_url: data.cover_image_url || '',
+            map_image_url: data.map_image_url || '',
+            badge_text: data.badge_text || '',
+            category: data.category || 'nacional',
+            price_disclaimer: data.price_disclaimer || '',
+            destination_id: data.destination_id || ''
+          });
+
+          // Restaurar Program Details
+          if (data.program_detail && Array.isArray(data.program_detail)) {
+            const newProgramDetails = [...programDetails];
+            data.program_detail.forEach((storedItem: any) => {
+              const existingIdx = newProgramDetails.findIndex(p => p.key === storedItem.key);
+              if (existingIdx !== -1) {
+                newProgramDetails[existingIdx].value = storedItem.value || '';
+              } else {
+                 newProgramDetails.push(storedItem);
+              }
+            });
+            setProgramDetails(newProgramDetails);
+          }
+
+          // Restaurar Itinerarios
+          if (data.itineraries && data.itineraries.length > 0) {
+            const sortedItineraries = data.itineraries.sort((a: any, b: any) => a.day_number - b.day_number);
+            setItinerary(sortedItineraries.map((it: any) => ({
+              day_number: it.day_number,
+              title: it.title,
+              description: it.description,
+              image_url: it.image_url || ''
+            })));
+          }
+
+          // Restaurar Inclusiones
+          if (data.inclusions) {
+            const inc = data.inclusions;
+            if (inc.included && Array.isArray(inc.included) && inc.included.length > 0) {
+               setIncluded(inc.included.map((i: any) => ({ category: i.category || '', itemsText: (i.items || []).join('\n') })));
+            }
+            if (inc.notIncluded && Array.isArray(inc.notIncluded)) {
+               setNotIncludedText(inc.notIncluded.join('\n'));
+            }
+          }
+
+          // Restaurar Useful Info
+          if (data.useful_info && Array.isArray(data.useful_info) && data.useful_info.length > 0) {
+            setUsefulInfo(data.useful_info.map((u: any) => ({ title: u.title || '', itemsText: (u.items || []).join('\n') })));
+          }
+
+          // Restaurar Hoteles
+          if (data.hotels) {
+             setHotelsLocations((data.hotels.locations || []).join(', '));
+             setHotelsNotes((data.hotels.notes || []).join('\n'));
+             if (data.hotels.categories && Array.isArray(data.hotels.categories) && data.hotels.categories.length > 0) {
+               setHotelsCategories(data.hotels.categories.map((c: any) => ({
+                 category: c.category || '',
+                 hotelsText: (c.hotels || []).join('\n'),
+                 priceDouble: c.priceDouble || '',
+                 priceSingle: c.priceSingle || ''
+               })));
+             }
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching tour:", err);
+        alert("No se pudo cargar la información del tour.");
+      } finally {
+        setCargandoDatos(false);
+      }
+    }
+
+    fetchTour();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  // ==============================================================================
+  // 🔄 EFECTO: TRADUCCIÓN AUTOMÁTICA DE LAS LLAVES DEL PROGRAM DETAIL
+  // ==============================================================================
+  useEffect(() => {
+    if (cargandoDatos) return; // Evitar traducir antes de que se cargue la base de datos
+    
     const translateKeys = (details: {key: string, value: string}[], targetLocale: string) => {
       const mapToEn: Record<string, string> = {
         'Precio': 'Price',
@@ -109,21 +213,18 @@ export default function NuevoTourAdmin() {
     };
 
     setProgramDetails(prev => translateKeys(prev, locale));
-  }, [locale]);
+  }, [locale, cargandoDatos]);
 
 
   // ==============================================================================
-  // 🚀 FUNCIÓN MAESTRA: COMPILAR JSONS Y ENVIAR A SUPABASE
-  // Se ejecuta al darle clic al botón "Publicar Tour"
+  // 🚀 FUNCIÓN MAESTRA: COMPILAR JSONS Y ACTUALIZAR SUPABASE
   // ==============================================================================
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Evita que la página se recargue al enviar el formulario
+    e.preventDefault();
     setCargando(true);
 
     try {
       // --- FASE A: EMPAQUETADO DE DATOS (Transformar textos a JSONs) ---
-
-      // 1. Armamos Inclusiones (separa el texto por saltos de línea \n)
       const inclusionsJson = {
         included: included.filter(inc => inc.category.trim() !== '').map(inc => ({
           category: inc.category,
@@ -132,13 +233,11 @@ export default function NuevoTourAdmin() {
         notIncluded: notIncludedText.split('\n').filter(i => i.trim() !== '')
       };
 
-      // 2. Armamos Información Útil
       const usefulInfoJson = usefulInfo.filter(info => info.title.trim() !== '').map(info => ({
         title: info.title,
         items: info.itemsText.split('\n').filter(i => i.trim() !== '')
       }));
 
-      // 3. Armamos Hoteles
       const hotelsJson = {
         locations: hotelsLocations.split(',').map(l => l.trim()).filter(l => l !== ''),
         notes: hotelsNotes.split('\n').filter(i => i.trim() !== ''),
@@ -150,7 +249,6 @@ export default function NuevoTourAdmin() {
         }))
       };
 
-      // 4. Armamos el objeto final exacto que espera la tabla 'tours'
       const tourData = {
         locale: locale,
         destination_id: basic.destination_id,
@@ -160,35 +258,40 @@ export default function NuevoTourAdmin() {
         duration_days: Number(basic.duration_days),
         duration_nights: Number(basic.duration_nights),
         cover_image_url: basic.cover_image_url,
-        map_image_url: basic.map_image_url || null, // Si está vacío, manda null
+        map_image_url: basic.map_image_url || null,
         badge_text: basic.badge_text || null,
         category: basic.category,
         price_disclaimer: basic.price_disclaimer,
-        program_detail: programDetails.filter(p => p.value.trim() !== ''), // Omite los vacíos
+        program_detail: programDetails.filter(p => p.value.trim() !== ''),
         inclusions: inclusionsJson,
         useful_info: usefulInfoJson,
         hotels: hotelsJson
       };
 
+      // --- FASE B: INYECCIÓN EN BASE DE DATOS (UPDATE) ---
 
-      // --- FASE B: INYECCIÓN EN BASE DE DATOS (Transacción) ---
-
-      // Paso 1: Insertamos el Tour principal y le pedimos a Supabase que nos devuelva el 'id' generado
-      const { data: newTour, error: tourError } = await supabase
+      // Paso 1: Actualizamos el Tour
+      const { error: tourError } = await supabase
         .from('tours')
-        .insert([tourData])
-        .select('id')
-        .single();
+        .update(tourData)
+        .eq('id', id);
 
-      if (tourError) throw tourError; // Si falla, salta al catch de abajo
+      if (tourError) throw tourError;
 
-      // Paso 2: Le inyectamos el 'id' del tour recién creado a cada día del itinerario
+      // Paso 2: Eliminamos itinerarios antiguos
+      const { error: deleteError } = await supabase
+        .from('itineraries')
+        .delete()
+        .eq('tour_id', id);
+
+      if (deleteError) throw deleteError;
+
+      // Paso 3: Guardamos los nuevos itinerarios
       const itineraryConId = itinerary.map(day => ({
         ...day,
-        tour_id: newTour.id
+        tour_id: id
       }));
 
-      // Paso 3: Guardamos todo el arreglo de itinerarios de un solo golpe
       const { error: itinError } = await supabase
         .from('itineraries')
         .insert(itineraryConId);
@@ -196,14 +299,13 @@ export default function NuevoTourAdmin() {
       if (itinError) throw itinError;
 
       // --- FASE C: ÉXITO ---
-      alert("¡TOUR PUBLICADO CON ÉXITO! 🚀 Ya está visible en la web.");
-      // Opcional: Aquí podrías redirigir al dashboard -> window.location.href = '/admin';
+      alert("¡TOUR ACTUALIZADO CON ÉXITO! 🔄");
       
     } catch (error) {
       console.error("Error guardando:", error);
       alert("Hubo un error al guardar. Revisa la consola para más detalles.");
     } finally {
-      setCargando(false); // Reactivamos el botón
+      setCargando(false);
     }
   };
 
@@ -219,10 +321,19 @@ export default function NuevoTourAdmin() {
     </div>
   );
 
+  if (cargandoDatos) {
+     return (
+       <div className="max-w-5xl mx-auto py-20 px-4 md:px-8 animate-fade-in flex flex-col items-center justify-center">
+          <div className="w-10 h-10 border-4 border-ui-border border-t-primary rounded-full animate-spin"></div>
+          <p className="mt-4 text-ui-text font-bold">Cargando datos del tour...</p>
+       </div>
+     )
+  }
+
   return (
     <div className="max-w-5xl mx-auto py-10 px-4 md:px-8 animate-fade-in">
       <Link href="/admin" className="text-secondary hover:text-primary font-bold text-sm mb-6 inline-block">← Volver al Dashboard</Link>
-      <h1 className="text-3xl font-bold text-ui-heading mb-8">Crear Nuevo Paquete 🎒</h1>
+      <h1 className="text-3xl font-bold text-ui-heading mb-8">Editar Paquete 🛠️</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
@@ -352,8 +463,8 @@ export default function NuevoTourAdmin() {
                   className="w-full bg-ui-bg border border-ui-border rounded-lg p-2 text-sm outline-none focus:border-primary" 
                   // Placeholder dinámico según la llave para guiar al redactor
                   placeholder={
-                    detail.key === 'Precio' ? "Ej. Desde US$ 1,850.00. Incluye impuestos." :
-                    detail.key === 'Punto de Partida' ? "Ej. Aeropuerto de Los Ángeles (LAX)" :
+                    detail.key === 'Precio' || detail.key === 'Price' ? "Ej. Desde US$ 1,850.00. Incluye impuestos." :
+                    detail.key === 'Punto de Partida' || detail.key === 'Departure Point' ? "Ej. Aeropuerto de Los Ángeles (LAX)" :
                     detail.key === 'Highlights' ? "Ej. Paseo de la Fama, Alcatraz, Golden Gate." :
                     `Ej. Detalle para ${detail.key}`
                   }
@@ -538,14 +649,14 @@ export default function NuevoTourAdmin() {
             BOTÓN FINAL (Flotante y Destacado)
             ========================================================= */}
         <div className="sticky bottom-4 bg-ui-surface p-4 border border-ui-border rounded-xl shadow-2xl flex justify-between items-center z-10">
-          <p className="text-sm text-ui-text hidden md:block px-4">El sistema ensamblará todo automáticamente y lo enviará a Supabase.</p>
+          <p className="text-sm text-ui-text hidden md:block px-4">El sistema actualizará el tour y los itinerarios automáticamente.</p>
           <button type="submit" disabled={cargando} className="w-full md:w-auto px-10 py-4 bg-accent text-white font-bold rounded-xl shadow-md hover:opacity-90 disabled:opacity-50 transition-all text-lg flex justify-center items-center">
             {cargando ? (
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                Inyectando a Base de Datos...
+                Actualizando Base de Datos...
               </span>
-            ) : 'Publicar Tour 🚀'}
+            ) : 'Actualizar Tour 🔄'}
           </button>
         </div>
 

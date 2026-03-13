@@ -26,6 +26,7 @@ export default async function TourDetail({ params }: Props) {
       )
     `)
     .eq('slug', slug)
+    .eq('locale', locale)
     .single();
 
   if (error || !tour) {

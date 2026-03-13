@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { FlightCard, FlightIcons } from '@/components/molecules/FlightCard';
 import { supabase } from '@/lib/supabase';
 
@@ -15,8 +15,9 @@ const leyendas = [
 ];
 
 export default function VuelosPage() {
+  const locale = useLocale();
   const t = useTranslations('FlightsPage');
-  const [activeTab, setActiveTab] = useState<'nacionales' | 'internacionales'>('nacionales');
+  const [activeTab, setActiveTab] = useState<'nacional' | 'internacional'>('nacional');
   const [vuelos, setVuelos] = useState<any[]>([]);
   const [cargando, setCargando] = useState(true);
 
@@ -26,6 +27,7 @@ export default function VuelosPage() {
       const { data, error } = await supabase
         .from('flights')
         .select('*')
+        .eq('locale', locale)
         .order('id', { ascending: true });
 
       if (error) {
@@ -39,7 +41,8 @@ export default function VuelosPage() {
   }, []);
 
   // Filtramos la data real de Supabase según la pestaña seleccionada
-  const vuelosAMostrar = vuelos.filter(vuelo => vuelo.category === activeTab);
+  // Usamos startsWith para que "nacional" atrape también a los vuelos viejos etiquetados como "nacionales"
+  const vuelosAMostrar = vuelos.filter(vuelo => vuelo.category && vuelo.category.startsWith(activeTab));
 
   return (
     <main className="min-h-screen bg-ui-bg pt-10 pb-20">
@@ -56,8 +59,8 @@ export default function VuelosPage() {
         <div className="flex flex-col items-center gap-6 mb-10 animate-fade-in">
 
           <div className="bg-ui-surface p-1 rounded-xl border border-ui-border shadow-sm inline-flex">
-            <button onClick={() => setActiveTab('nacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'nacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.nacionales')}</button>
-            <button onClick={() => setActiveTab('internacionales')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'internacionales' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.internacionales')}</button>
+            <button onClick={() => setActiveTab('nacional')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'nacional' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.nacionales')}</button>
+            <button onClick={() => setActiveTab('internacional')} className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'internacional' ? 'bg-primary text-white shadow-md' : 'text-ui-text hover:text-primary'}`}>{t('tabs.internacionales')}</button>
           </div>
 
           {/* LEYENDA DE ÍCONOS (Ajustada al ancho completo y scroll corregido para Tablets) */}

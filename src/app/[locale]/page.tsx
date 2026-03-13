@@ -16,6 +16,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { data: tours, error } = await supabase
     .from('tours')
     .select('id, title, slug, cover_image_url, duration_days, price, badge_text')
+    .eq('locale', locale)
     .order('created_at', { ascending: false });
 
   // Si hay error en la consulta, lo mostramos en consola

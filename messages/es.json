@@ -29,7 +29,12 @@
     "departingFrom": "Partiendo desde {origin}",
     "priceFrom": "Precio desde:",
     "bookNow": "Reservar",
-    "whatsappMessage": "¡Hola Continents! Quiero reservar la oferta de vuelo a {destination} del {dateRange} por US$ {priceUsd}."
+    "whatsappMessage": "¡Hola Continents! Quiero reservar la oferta de vuelo a {destination} del {dateRange} por US$ {priceUsd}.",
+    "types": {
+      "roundTrip": "Ida y Vuelta",
+      "oneWay": "Solo Ida",
+      "multiCity": "Multidestino"
+    }
   },
   "TourDetail": {
     "days": "Días",

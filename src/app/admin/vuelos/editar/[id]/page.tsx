@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { StatusModal } from '@/components/molecules/StatusModal';
 
@@ -15,10 +15,14 @@ const INCLUSIONES_DISPONIBLES = [
   { key: 'seat', text: "Selección de asiento" },
 ];
 
-export default function NuevoVueloAdmin() {
+export default function EditarVueloAdmin() {
   const router = useRouter();
+  const params = useParams();
+  const flightId = params.id as string;
+
   const [locale, setLocale] = useState('es');
   const [cargando, setCargando] = useState(false);
+  const [cargandoDatos, setCargandoDatos] = useState(true);
 
   const [modalConfig, setModalConfig] = useState<{isOpen: boolean, type: 'success' | 'error', message: string}>({
     isOpen: false, type: 'success', message: ''
@@ -48,13 +52,61 @@ export default function NuevoVueloAdmin() {
   // Función para encender/apagar un Chip
   const toggleInclusion = (text: string) => {
     if (selectedInclusions.includes(text)) {
-      // Si ya está, lo quitamos
       setSelectedInclusions(selectedInclusions.filter(item => item !== text));
     } else {
-      // Si no está, lo agregamos
       setSelectedInclusions([...selectedInclusions, text]);
     }
   };
+
+  // ==============================================================================
+  // 🔌 EFECTO MAESTRO: CARGAR DATOS DEL VUELO EXISTENTE
+  // ==============================================================================
+  useEffect(() => {
+    async function cargarVuelo() {
+      try {
+        const { data, error } = await supabase
+          .from('flights')
+          .select('*')
+          .eq('id', flightId)
+          .single();
+
+        if (error) throw error;
+        if (data) {
+          // 1. Restaurar Locale
+          setLocale(data.locale || 'es');
+          
+          // 2. Restaurar datos base
+          setFlight({
+            origin: data.origin,
+            destination: data.destination,
+            flight_type: data.flight_type,
+            airline: data.airline,
+            date_range: data.date_range,
+            category: data.category,
+            slug: data.slug,
+            price_usd: data.price_usd.toString(),
+            price_pen: data.price_pen.toString(),
+            image_url: data.image_url
+          });
+
+          // 3. Restaurar Inclusiones (el arreglo JSONB)
+          if (data.inclusions && Array.isArray(data.inclusions)) {
+             setSelectedInclusions(data.inclusions);
+          }
+        }
+      } catch (error) {
+        console.error("Error cargando vuelo:", error);
+        alert("Error cargando el vuelo. Regresando...");
+        router.push('/admin');
+      } finally {
+        setCargandoDatos(false);
+      }
+    }
+
+    if (flightId) {
+      cargarVuelo();
+    }
+  }, [flightId, router]);
 
   // ==============================================================================
   // 🚀 FUNCIÓN MAESTRA: PROCESAR Y ENVIAR A SUPABASE
@@ -91,12 +143,13 @@ export default function NuevoVueloAdmin() {
       
       const { error } = await supabase
         .from('flights')
-        .insert([flightData]);
+        .update(flightData)
+        .eq('id', flightId);
 
       setModalConfig({
         isOpen: true,
         type: 'success',
-        message: 'El vuelo se ha publicado exitosamente en el sistema.'
+        message: 'Los datos del vuelo han sido actualizados con éxito.'
       });
       
     } catch (error) {
@@ -104,7 +157,7 @@ export default function NuevoVueloAdmin() {
       setModalConfig({
         isOpen: true,
         type: 'error',
-        message: 'No se pudo guardar el vuelo. Revisa tu conexión o la consola.'
+        message: 'Error al actualizar el vuelo. Por favor revisa la consola.'
       });
     } finally {
       setCargando(false);
@@ -120,6 +173,15 @@ export default function NuevoVueloAdmin() {
       </h2>
     </div>
   );
+
+  if (cargandoDatos) {
+    return (
+      <div className="min-h-screen py-20 flex flex-col items-center justify-center animate-pulse">
+        <div className="w-12 h-12 border-4 border-secondary border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-ui-text font-medium text-lg">Descargando bitácora de vuelo...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4 md:px-8 animate-fade-in relative z-0">
@@ -137,7 +199,7 @@ export default function NuevoVueloAdmin() {
       />
 
       <Link href="/admin" className="text-ui-text hover:text-secondary font-bold text-sm mb-6 inline-block">← Volver al Dashboard</Link>
-      <h1 className="text-3xl font-bold text-ui-heading mb-8">Crear Nuevo Ticket de Vuelo ✈️</h1>
+      <h1 className="text-3xl font-bold text-ui-heading mb-8">Editar Ticket de Vuelo 🛠️</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         
@@ -300,9 +362,9 @@ export default function NuevoVueloAdmin() {
             {cargando ? (
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                Inyectando Vuelo...
+                Actualizando Ticket...
               </span>
-            ) : 'Publicar Vuelo ✈️'}
+            ) : 'Guardar Cambios 🛠️'}
           </button>
         </div>
 
