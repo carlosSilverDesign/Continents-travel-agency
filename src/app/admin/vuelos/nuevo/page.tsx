@@ -262,14 +262,14 @@ export default function NuevoVueloAdmin() {
             
             <div className="flex flex-wrap gap-3">
               {INCLUSIONES_DISPONIBLES.map((inc) => {
-                // Verificamos si este beneficio está en nuestro arreglo de seleccionados
-                const isSelected = selectedInclusions.includes(inc.text);
+                // Ahora comparamos y guardamos la KEY interna, NO el texto.
+                const isSelected = selectedInclusions.includes(inc.key);
                 
                 return (
                   <button
                     key={inc.key}
-                    type="button" // IMPORTANTE para que no envíe el form al hacer clic
-                    onClick={() => toggleInclusion(inc.text)}
+                    type="button" 
+                    onClick={() => toggleInclusion(inc.key)}
                     className={`
                       px-4 py-2 rounded-full border text-sm font-bold transition-all duration-200
                       ${isSelected 

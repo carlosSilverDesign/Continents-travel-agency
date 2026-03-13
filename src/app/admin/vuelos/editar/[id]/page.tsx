@@ -89,9 +89,18 @@ export default function EditarVueloAdmin() {
             image_url: data.image_url
           });
 
-          // 3. Restaurar Inclusiones (el arreglo JSONB)
+          // 3. Restaurar Inclusiones y Auto-Migrar Textos Viejos a Llaves
           if (data.inclusions && Array.isArray(data.inclusions)) {
-             setSelectedInclusions(data.inclusions);
+             const migratedKeys = data.inclusions.map((inclusionValue: string) => {
+               if (inclusionValue === 'Accesorio personal') return 'personal';
+               if (inclusionValue === 'Equipaje de mano (10-12kg)') return 'carryon';
+               if (inclusionValue === 'Maleta facturada (23kg)') return 'checked';
+               if (inclusionValue === 'Cambios permitidos') return 'change';
+               if (inclusionValue === 'Reembolso') return 'refund';
+               if (inclusionValue === 'Selección de asiento') return 'seat';
+               return inclusionValue; // Si ya es una llave
+             });
+             setSelectedInclusions(migratedKeys);
           }
         }
       } catch (error) {
@@ -324,14 +333,14 @@ export default function EditarVueloAdmin() {
             
             <div className="flex flex-wrap gap-3">
               {INCLUSIONES_DISPONIBLES.map((inc) => {
-                // Verificamos si este beneficio está en nuestro arreglo de seleccionados
-                const isSelected = selectedInclusions.includes(inc.text);
+                // Ahora comparamos y guardamos la KEY interna, NO el texto.
+                const isSelected = selectedInclusions.includes(inc.key);
                 
                 return (
                   <button
                     key={inc.key}
-                    type="button" // IMPORTANTE para que no envíe el form al hacer clic
-                    onClick={() => toggleInclusion(inc.text)}
+                    type="button" 
+                    onClick={() => toggleInclusion(inc.key)}
                     className={`
                       px-4 py-2 rounded-full border text-sm font-bold transition-all duration-200
                       ${isSelected 

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { FiSearch, FiEdit2, FiTrash2, FiPlus, FiGlobe, FiPackage, FiNavigation } from "react-icons/fi";
+import { StatusModal } from "@/components/molecules/StatusModal";
+import { ConfirmModal } from "@/components/molecules/ConfirmModal";
 
 type Tour = {
   id: string;
@@ -30,6 +32,24 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<"tours" | "flights">("tours");
   const [searchQuery, setSearchQuery] = useState("");
   const [languageFilter, setLanguageFilter] = useState<"all" | "es" | "en">("all");
+
+  const [statusConfig, setStatusConfig] = useState<{isOpen: boolean, type: 'success' | 'error', message: string}>({
+    isOpen: false, type: 'success', message: ''
+  });
+  
+  const [deleteConfig, setDeleteConfig] = useState<{
+    isOpen: boolean;
+    id: string | null;
+    type: "tours" | "flights";
+    title: string;
+    isDeleting: boolean;
+  }>({
+    isOpen: false,
+    id: null,
+    type: "tours",
+    title: "",
+    isDeleting: false
+  });
 
   useEffect(() => {
     fetchData();
@@ -74,25 +94,46 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDelete = async (id: string, type: "tours" | "flights") => {
-    const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar este ${type === "tours" ? "tour" : "vuelo"}? Esta acción no se puede deshacer.`);
-    if (!confirmDelete) return;
+  const ejecutarEliminacion = async () => {
+    if (!deleteConfig.id) return;
+    setDeleteConfig((prev) => ({ ...prev, isDeleting: true }));
 
     try {
-      const { error } = await supabase.from(type).delete().eq("id", id);
+      const { error } = await supabase.from(deleteConfig.type).delete().eq("id", deleteConfig.id);
       if (error) throw error;
 
       // Update local state
-      if (type === "tours") {
-        setTours((prev) => prev.filter((t) => t.id !== id));
+      if (deleteConfig.type === "tours") {
+        setTours((prev) => prev.filter((t) => t.id !== deleteConfig.id));
       } else {
-        setFlights((prev) => prev.filter((f) => f.id !== id));
+        setFlights((prev) => prev.filter((f) => f.id !== deleteConfig.id));
       }
+
+      setDeleteConfig((prev) => ({ ...prev, isOpen: false, isDeleting: false }));
+      setStatusConfig({
+        isOpen: true,
+        type: "success",
+        message: "El registro ha sido eliminado exitosamente de la base de datos."
+      });
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error("Error deleting record:", error);
-      alert("Error al intentar eliminar el registro.");
+      setDeleteConfig((prev) => ({ ...prev, isOpen: false, isDeleting: false }));
+      setStatusConfig({
+        isOpen: true,
+        type: "error",
+        message: "Error al intentar eliminar el registro. Verifica la consola."
+      });
     }
+  };
+
+  const handleDeleteClick = (id: string, type: "tours" | "flights", recordTitle: string) => {
+    setDeleteConfig({
+      isOpen: true,
+      id,
+      type,
+      title: recordTitle,
+      isDeleting: false
+    });
   };
 
   // --- Filtering Logic ---
@@ -109,7 +150,25 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="animate-fade-in max-w-7xl mx-auto py-8 px-4 md:px-8">
+    <div className="animate-fade-in max-w-7xl mx-auto py-8 px-4 md:px-8 relative z-0">
+      
+      {/* --- INYECCIÓN DE MODALES --- */}
+      <StatusModal 
+        isOpen={statusConfig.isOpen}
+        type={statusConfig.type}
+        message={statusConfig.message}
+        onClose={() => setStatusConfig({ ...statusConfig, isOpen: false })}
+      />
+
+      <ConfirmModal
+        isOpen={deleteConfig.isOpen}
+        isDeleting={deleteConfig.isDeleting}
+        title="¿Eliminar este registro?"
+        message={`Estás a punto de borrar "${deleteConfig.title}". Esta acción es irreversible y no se puede deshacer.`}
+        onCancel={() => setDeleteConfig({ ...deleteConfig, isOpen: false })}
+        onConfirm={ejecutarEliminacion}
+      />
+
       {/* Header & Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
@@ -263,7 +322,7 @@ export default function AdminDashboard() {
                           <FiEdit2 />
                         </Link>
                         <button
-                          onClick={() => handleDelete(tour.id, "tours")}
+                          onClick={() => handleDeleteClick(tour.id, "tours", tour.title)}
                           className="p-2 text-ui-text hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                           title="Eliminar"
                         >
@@ -299,7 +358,7 @@ export default function AdminDashboard() {
                           <FiEdit2 />
                         </Link>
                         <button
-                          onClick={() => handleDelete(flight.id, "flights")}
+                          onClick={() => handleDeleteClick(flight.id, "flights", flight.route)}
                           className="p-2 text-ui-text hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                           title="Eliminar"
                         >

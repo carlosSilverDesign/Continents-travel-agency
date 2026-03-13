@@ -114,11 +114,22 @@ export function FlightCard({ image, destination, origin, flightType, airline, pr
 
         {/* Fila de Íconos de Inclusión */}
         <div className="flex flex-wrap gap-2 mt-auto">
-          {inclusions.map((iconKey, idx) => (
-            <div key={idx} className="w-8 h-8 rounded-full bg-ui-bg flex items-center justify-center text-ui-text" title={iconKey}>
-              {FlightIcons[iconKey] || FlightIcons.personal}
-            </div>
-          ))}
+          {inclusions.map((inclusionValue, idx) => {
+            // Mapeo retrocompatible: Si el admin guardó el "texto en español" en vez de la "key", lo interceptamos.
+            let validKey = inclusionValue;
+            if (inclusionValue === 'Accesorio personal') validKey = 'personal';
+            if (inclusionValue === 'Equipaje de mano (10-12kg)') validKey = 'carryon';
+            if (inclusionValue === 'Maleta facturada (23kg)') validKey = 'checked';
+            if (inclusionValue === 'Cambios permitidos') validKey = 'change';
+            if (inclusionValue === 'Reembolso') validKey = 'refund';
+            if (inclusionValue === 'Selección de asiento') validKey = 'seat';
+
+            return (
+              <div key={idx} className="w-8 h-8 rounded-full bg-ui-bg flex items-center justify-center text-ui-text" title={validKey}>
+                {FlightIcons[validKey] || FlightIcons.personal}
+              </div>
+            );
+          })}
         </div>
       </div>
 
